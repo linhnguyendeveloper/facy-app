@@ -1,0 +1,17 @@
+import axios from 'axios'
+import { getActionName } from '../../utils/getActionName'
+import baseUrl from '../api/index'
+export const callAPI = (method, url, data, token) => {
+  return axios({
+    baseURL: baseUrl,
+    timeout: 20000,
+    headers: {
+      'content-type': 'application/json',
+      'Ocp-Apim-Subscription-Key': '149de49b198446478de94394aced5677',
+      Authorization: token
+    },
+    method,
+    url,
+    data
+  })
+}
