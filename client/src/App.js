@@ -3,7 +3,8 @@ import withFirebaseAuth from 'react-with-firebase-auth'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import firebaseConfig from './firebaseConfig'
-import Attendances from './pages/Attendances'
+import Lecture from './pages/Lecture/LectureSchedule'
+import Login from './pages/Login/Login'
 import 'antd/dist/antd.css'
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const firebaseAppAuth = firebaseApp.auth()
@@ -16,7 +17,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Attendances />
+        <Login />
       </div>
     )
   }
