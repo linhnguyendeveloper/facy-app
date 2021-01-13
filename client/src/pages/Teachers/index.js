@@ -1,54 +1,63 @@
-import React from 'react';
-import { Table, Tag, Space } from 'antd';
-import {UsergroupDeleteOutlined} from '@ant-design/icons'
-const Attendances = ({attendances}) => {
-    const columns = [
-        {
-          title: 'Class',
-          dataIndex: 'classId',
-          key: 'classId',
-          render: text => <span>SE1302</span>,
-        },
-        {
-            title: 'Course',
-            dataIndex: 'courseId',
-            key: 'courseId',
-            render: text => <span>PMG201</span>,
-          },  {
-            title: 'Date',
-            dataIndex: 'date',
-            key: 'date',
-            render: text => <span>{text}</span>,
-          },  {
-            title: 'Room',
-            dataIndex: 'room',
-            key: 'room',
-            render: text => <span>{text}</span>,
-          },  {
-            title: 'Slot',
-            dataIndex: 'time',
-            key: 'time',
-            render: text => <span>{text}</span>,
-          },
-          ,  {
-            title: 'Teacher',
-            dataIndex: 'time',
-            key: 'time',
-            render: text => <span>PhucTC</span>,
-          }
-          ,  {
-            title: 'Students',
-            dataIndex: 'time',
-            key: 'time',
-            render: text =><UsergroupDeleteOutlined />,
-          }
-      ];
-    return (
-        <div style={{margin:40}}>
-            <p style={{margin:30,fontSize:22,fontWeight:'bold'}}>ATTENDANCES</p>
-            <Table columns={columns} dataSource={attendances}/>
-        </div>
-    );
-};
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import { getTeachers } from '../../redux/teachers/actions'
+import { getAttendances } from '../../redux/attendances/actions'
+import { Layout, Menu, Breadcrumb } from 'antd'
+import './style.scss'
+import TeacherSchedule from './components/TeacherSchedule'
+import ModalScheduleDetail from './components/ModalScheduleDetail'
+import CustomMenu from '../../components/CustomeMenu'
+import CustomHeader from '../../components/CustomHeader'
+import CustomFooter from '../../components/CustomFooter'
 
-export default Attendances;
+const { Footer } = Layout
+const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
+  useEffect(() => {
+    getTeachers('token')
+    getAttendances('token')
+  }, [getTeachers, getAttendances])
+  const [modalScheduleDetailOpen, setModalScheduleDetailOpen] = useState(false)
+  const [selectedScheduleId, setSelectedScheduleId] = useState('')
+  const handleSelectSchedule = id => {
+    setSelectedScheduleId(id)
+    setModalScheduleDetailOpen(true)
+  }
+  const handleCancelOpenDetail = () => {
+    setModalScheduleDetailOpen(false)
+  }
+
+  const modalScheduleDetailData = attendances.find(
+    item => item._id === selectedScheduleId
+  )
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <CustomMenu />
+      <Layout>
+        <CustomHeader />
+        <div>
+          <p className="table-title ">Teachers Calendar</p>
+          <TeacherSchedule
+            attendances={attendances}
+            handleSelectSchedule={handleSelectSchedule}
+          />
+        </div>
+        <CustomFooter />
+      </Layout>
+      <ModalScheduleDetail
+        modalScheduleDetailOpen={modalScheduleDetailOpen}
+        handleCancelOpenDetail={handleCancelOpenDetail}
+        modalScheduleDetailData={modalScheduleDetailData}
+      />
+    </Layout>
+  )
+}
+const mapState = state => ({
+  teachers: state.teachers.teachers,
+  attendances: state.attendances.attendances
+})
+
+const mapDispatch = dispatch => ({
+  getTeachers: token => dispatch(getTeachers(token)),
+  getAttendances: token => dispatch(getAttendances(token))
+})
+export default connect(mapState, mapDispatch)(Teachers)
