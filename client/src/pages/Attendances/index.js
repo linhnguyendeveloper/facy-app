@@ -2,15 +2,11 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getAttendances } from '../../redux/attendances/actions'
 import TableManagement from './Table'
-import { Layout, Menu, Breadcrumb, Row, Col } from 'antd'
-import { BookOutlined, DatabaseOutlined } from '@ant-design/icons'
+import { Layout } from 'antd'
 import './style.scss'
 import CustomMenu from '../../components/CustomeMenu'
 import CustomHeader from '../../components/CustomHeader'
 import CustomFooter from '../../components/CustomFooter'
-
-const { Header, Content, Footer, Sider } = Layout
-const { SubMenu } = Menu
 const Attendances = ({ attendances, getAttendances }) => {
   useEffect(() => {
     getAttendances('token')

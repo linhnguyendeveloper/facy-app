@@ -5,7 +5,7 @@ import React from 'react'
 // import firebaseConfig from './firebaseConfig'
 import Attendances from './pages/Attendances'
 import Teachers from './pages/Teachers'
-
+import Login from './pages/Login/Login'
 import 'antd/dist/antd.css'
 // const firebaseApp = firebase.initializeApp(firebaseConfig)
 // const firebaseAppAuth = firebaseApp.auth()
@@ -21,6 +21,7 @@ class App extends React.Component {
         <Teachers />
         {/* <Attendances /> */}
 
+        <Login />
       </div>
     )
   }
