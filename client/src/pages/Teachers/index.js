@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { getTeachers } from '../../redux/teachers/actions'
 import { getAttendances } from '../../redux/attendances/actions'
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout } from 'antd'
 import './style.scss'
 import TeacherSchedule from './components/TeacherSchedule'
 import ModalScheduleDetail from './components/ModalScheduleDetail'
@@ -10,7 +10,6 @@ import CustomMenu from '../../components/CustomeMenu'
 import CustomHeader from '../../components/CustomHeader'
 import CustomFooter from '../../components/CustomFooter'
 
-const { Footer } = Layout
 const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
   useEffect(() => {
     getTeachers('token')
@@ -30,25 +29,18 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
     item => item._id === selectedScheduleId
   )
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <CustomMenu />
-      <Layout>
-        <CustomHeader />
-        <div>
-          <p className="table-title ">Teachers Calendar</p>
-          <TeacherSchedule
-            attendances={attendances}
-            handleSelectSchedule={handleSelectSchedule}
-          />
-        </div>
-        <CustomFooter />
-      </Layout>
+    <div>
+      <p className="table-title ">Teachers Calendar</p>
+      <TeacherSchedule
+        attendances={attendances}
+        handleSelectSchedule={handleSelectSchedule}
+      />
       <ModalScheduleDetail
         modalScheduleDetailOpen={modalScheduleDetailOpen}
         handleCancelOpenDetail={handleCancelOpenDetail}
         modalScheduleDetailData={modalScheduleDetailData}
       />
-    </Layout>
+    </div>
   )
 }
 const mapState = state => ({
