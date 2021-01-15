@@ -26,7 +26,82 @@ const data = {
     //   ]
     // },
     {
-      _id: '5ffa6c2fd7a2d3d62ebc21b7x3535',
+      _id: '5ffa6c2fd7a2d3d62ebzzc21b7x3535',
+      courseId: '5ffa6b3dd7a2d3d62ebc214b',
+      classId: '5ffa6b72d7a2d3d62ebc2162',
+      class: 'SE1301',
+      course: 'BBB221',
+      slot: '1',
+      date: '28-01-2021',
+      room: '201',
+      teacher: 'phuc',
+      attendance: [
+        {
+          studentId: '5ffa6a1ed7a2d3d62ebc209c',
+          name: 'Nguyen Van A',
+          attendance: true,
+          note: ''
+        },
+        {
+          studentId: '5ffa6a2ed7a2d3d62ebc20a5',
+          name: 'Nguyen Van B',
+          attendance: true,
+          note: ''
+        }
+      ]
+    },
+    {
+      _id: '5ffa6c2fd7a2d3d62ebc21b7xzz3535',
+      courseId: '5ffa6b3dd7a2d3d62ebc214b',
+      classId: '5ffa6b72d7a2d3d62ebc2162',
+      class: 'SE1301',
+      course: 'BBB221',
+      slot: '1',
+      date: '28-01-2021',
+      room: '201',
+      teacher: 'phuc',
+      attendance: [
+        {
+          studentId: '5ffa6a1ed7a2d3d62ebc209c',
+          name: 'Nguyen Van A',
+          attendance: true,
+          note: ''
+        },
+        {
+          studentId: '5ffa6a2ed7a2d3d62ebc20a5',
+          name: 'Nguyen Van B',
+          attendance: true,
+          note: ''
+        }
+      ]
+    },
+    {
+      _id: '5ffa6c2fd7a2d3d62ebc21b7x353zzz5',
+      courseId: '5ffa6b3dd7a2d3d62ebc214b',
+      classId: '5ffa6b72d7a2d3d62ebc2162',
+      class: 'SE1301',
+      course: 'BBB221',
+      slot: '1',
+      date: '28-01-2021',
+      room: '201',
+      teacher: 'phuc',
+      attendance: [
+        {
+          studentId: '5ffa6a1ed7a2d3d62ebc209c',
+          name: 'Nguyen Van A',
+          attendance: true,
+          note: ''
+        },
+        {
+          studentId: '5ffa6a2ed7a2d3d62ebc20a5',
+          name: 'Nguyen Van B',
+          attendance: true,
+          note: ''
+        }
+      ]
+    },
+    {
+      _id: '5ffa6c2fd7a2d3d62ebc21b7x3535zzz',
       courseId: '5ffa6b3dd7a2d3d62ebc214b',
       classId: '5ffa6b72d7a2d3d62ebc2162',
       class: 'SE1301',
