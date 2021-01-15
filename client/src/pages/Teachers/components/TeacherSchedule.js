@@ -1,9 +1,8 @@
-import React from 'react';
-import { Calendar, Layout, Breadcrumb, Tag } from 'antd'
+import React from 'react'
+import { Calendar, Badge, Tag } from 'antd'
 import '../style.scss'
 import { EyeOutlined } from '@ant-design/icons'
 
-const { Content } = Layout
 const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
   const getListData = value => {
     const dateData = attendances.filter(
@@ -14,15 +13,15 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
 
     listData = dateData
       ? dateData.map(item => {
-        return {
-          type: 'success',
-          class: item.class,
-          course: item.course,
-          room: item.room,
-          id: item._id,
-          slot: item.slot
-        }
-      })
+          return {
+            type: 'success',
+            class: item.class,
+            course: item.course,
+            room: item.room,
+            id: item._id,
+            slot: item.slot
+          }
+        })
       : []
 
     return listData
@@ -31,7 +30,23 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
     const listData = getListData(value)
     return listData.map(item => (
       <div className="date-cell">
-        <Tag color="#108ee9" onClick={() => handleSelectSchedule(item.id)} icon={<EyeOutlined />}>{item.course}</Tag>
+        {item.id === '5ffa6c2fd7a2d3d62ebzzc21b7x3535' ? (
+          <Tag
+            color="gray"
+            onClick={() => handleSelectSchedule(item.id)}
+            icon={<EyeOutlined />}
+          >
+            {item.course}
+          </Tag>
+        ) : (
+          <Tag
+            color="#108ee9"
+            onClick={() => handleSelectSchedule(item.id)}
+            icon={<EyeOutlined />}
+          >
+            {item.course}
+          </Tag>
+        )}
       </div>
     ))
   }
@@ -52,26 +67,13 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
 
   return (
     <div>
-
-   
-    <div>
-      <Content style={{ margin: '0 16px' }}>
-        <Breadcrumb style={{ margin: '16px 0',textAlign:"left"}}>
-          <Breadcrumb.Item>Course</Breadcrumb.Item>
-          <Breadcrumb.Item>Lecture Schedule</Breadcrumb.Item>
-        </Breadcrumb>
-
-      </Content>
-      </div>
-      <div>
       <Calendar
-        style={{ padding: 20 }}
+        style={{ padding: 20, border: '1px solid black' }}
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
       />
     </div>
-    </div>
-  );
-};
+  )
+}
 
-export default TeacherSchedule;
+export default TeacherSchedule

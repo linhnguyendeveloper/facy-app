@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { getTeachers } from '../../redux/teachers/actions'
 import { getAttendances } from '../../redux/attendances/actions'
+import { Layout } from 'antd'
 import './style.scss'
 import TeacherSchedule from './components/TeacherSchedule'
 import ModalScheduleDetail from './components/ModalScheduleDetail'
-
+import CustomMenu from '../../components/CustomeMenu'
+import CustomHeader from '../../components/CustomHeader'
+import CustomFooter from '../../components/CustomFooter'
 
 const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
   useEffect(() => {
@@ -27,7 +30,7 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
   )
   return (
     <div>
-
+      <p className="table-title ">Teachers Calendar</p>
       <TeacherSchedule
         attendances={attendances}
         handleSelectSchedule={handleSelectSchedule}
