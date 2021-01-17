@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { getTeachers } from '../../redux/teachers/actions'
 import { getAttendances } from '../../redux/attendances/actions'
-import { Layout } from 'antd'
+import {Layout, Breadcrumb } from 'antd'
+
 import './style.scss'
 import TeacherSchedule from './components/TeacherSchedule'
 import ModalScheduleDetail from './components/ModalScheduleDetail'
 import CustomMenu from '../../components/CustomeMenu'
 import CustomHeader from '../../components/CustomHeader'
 import CustomFooter from '../../components/CustomFooter'
-
+const { Content } = Layout
 const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
   useEffect(() => {
     getTeachers('token')
@@ -30,7 +31,13 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
   )
   return (
     <div>
-      <p className="table-title ">Teachers Calendar</p>
+   
+   <Content style={{ margin: '0 16px' }}>
+        <Breadcrumb style={{ margin: '16px 0', textAlign:"left" }}>
+          <Breadcrumb.Item>Course</Breadcrumb.Item>
+          <Breadcrumb.Item>Lecture Schedule</Breadcrumb.Item>
+        </Breadcrumb>
+      </Content>
       <TeacherSchedule
         attendances={attendances}
         handleSelectSchedule={handleSelectSchedule}

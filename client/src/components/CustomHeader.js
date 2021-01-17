@@ -12,12 +12,6 @@ const CustomHeader = () => {
        <Button type="danger" style={{float:"right",marginTop:9,marginRight:9}}>Log out</Button>
       </Header>
     
-      <Content style={{ margin: '0 16px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Course</Breadcrumb.Item>
-          <Breadcrumb.Item>Classes Teacher</Breadcrumb.Item>
-        </Breadcrumb>
-      </Content>
     </>
   )
 }
