@@ -24,22 +24,23 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Layout style={{ minHeight: '100vh' }}>
-          <CustomMenu />
-          <Layout>
-            <CustomHeader />
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/login" />
-              </Route>
-              <Route path="/login" component={Login} exact/>
 
-              <Route path="/attendances" component={Attendances} exact/>
-              <Route path="/teachers" component={Teachers} exact/>
-            </Switch>
-            <CustomFooter />
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route path="/login" component={Login} exact />
+          <Layout style={{ minHeight: '100vh' }}>
+            <CustomMenu />
+            <Layout>
+              <CustomHeader />
+              <Route path="/attendances" component={Attendances} exact />
+              <Route path="/teachers" component={Teachers} exact />
+              <CustomFooter />
+            </Layout>
           </Layout>
-        </Layout>
+        </Switch>
+
       </div>
     )
   }

@@ -24,7 +24,7 @@ const CustomMenu = () => {
           />
           Welcome, lecture!
         </div>
-        <Menu theme="dark" defaultSelectedKeys={['2']} mode="inline">
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <SubMenu key="sub1" icon={<BookOutlined />} title="Course">
             <Menu.Item key="1"><Link to='/teachers'> </Link> Teaching Schedule</Menu.Item>
             <Menu.Item key="2"><Link to='/attendances'> </Link>Attendances</Menu.Item>

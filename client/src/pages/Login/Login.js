@@ -35,10 +35,10 @@ function Login() {
                       Login to Facy Attendance !!
                     </h1>
                     <p>Username</p>
-                    <Input value="Just click submit" />
+                    <Input style={{width:300}} value="Just click submit" />
                     <p></p>
                     <p>Password</p>
-                    <Input value="Just click submit" />
+                    <Input style={{width:300}} value="Just click submit" />
                     <p></p>
                     <p>
                       {' '}
