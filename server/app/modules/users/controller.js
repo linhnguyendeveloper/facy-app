@@ -1,31 +1,22 @@
-const { User } = require('../../models/attendances');
-const UserSerivce = require('./users.service');
+const mongoose = require("mongoose");
+const User = mongoose.model("Facy_User");
+const UserSerivce = require('./service');
 const constants = require('../../utils/constants')
-const { validateCreateUser, validateEditUser } = require('../../models/attendances')
-const {firebaseConfig} = require('../../utils/firebase') 
-var firebase = require('firebase');
-firebase.initializeApp(firebaseConfig);
+const bcrypt = require('bcryptjs');
+const { validateCreate, validateEdit } = require('../../models/users')
+
 const getMany = (req, res) => {
-    var updates = {};
-    console.log(req.query,'??');
-    // updates['attendances/' + 'key-của-record-1'] = 'new value'; 
-   firebase.database().ref('/attendances/'+req.query.id).once('value').then((snapshot) => {
-    console.log(snapshot.val(),'cac');
-    // ...
-  });
-    // .set({message: 'GET Request 222'});
-    
-    // UserSerivce.getMany()
-    //     .then(data => {
-    //         // res.status(200).json(data)
-    //     }).catch(err => {
-    //         // res.status(401).json(err)
-    //     })
+    UserSerivce.getMany().select("-password")
+        .then(data => {
+            res.status(200).json(data)
+        }).catch(err => {
+            res.status(401).json(err)
+        })
 }
 
 const getOne = (req, res) => {
     let id = req.params.id;
-    UserSerivce.getOne(id)
+    UserSerivce.getOne(id).select("-password")
         .then((data) => {
             return res.status(constants.CODE.GET_OK).json(data);
         })
@@ -47,10 +38,12 @@ const create = (req, res) => {
         }, {})
         return res.status(constants.CODE.BAD_REQUEST).json(errors);
     } else {
+        data.password = bcrypt.hashSync(data.password, 10);
         UserSerivce.create(data)
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
-                    message: "create successful"
+                    message: "create successful",
+                    
                 });
             })
             .catch((err) => {

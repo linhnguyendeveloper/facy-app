@@ -1,12 +1,8 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config/index");
 
-const jwtToken = (data = {}) => {
-    try {
-        return jwt.sign(data, config.SESSION.jwtSecret);
-    } catch {
-        return null;
-    }
+const jwtToken = (data = {}, options = {}, expiresIn = 86400) => {
+    return jwt.sign(data, config.SESSION.jwtSecret, { expiresIn, ...options });
 }
 
 const pareJwtToken = (token) => {

@@ -8,21 +8,18 @@ const config = require("./config/index");
 const app = express();
 const http = require("http").Server(app);
 const port = process.env.PORT || 3000;
-const bodyParser = require('body-parser')
 
 require('./config/express')(app);
-app.use(bodyParser.json())
-// app.all('*', function(){
 
-// })
-// app.get('/', function (req, res) {
-  
-//     console.log("HTTP Get Request");
-//     res.send("HTTP GET Request");
-//     //Insert key,value pair to database
-//     firebase.database().ref('/message').set({message: 'GET Request'});
-    
-//   });
+const io = require('socket.io')(http);
+
+io.on("connection", function (socket) {
+    socket.on('news', function (data) { //lắng nghe event 'all client'
+        io.sockets.emit('news', socket.id + ' send all client: ' + data); // gửi cho tất cả client
+    });
+
+})
+
 
 require(config.PATH_MODELS)
     .map(modelName => `${config.PATH_MODELS}/${modelName}`)
@@ -32,7 +29,7 @@ require(config.PATH_MODELS)
 const listen = () => {
     new Promise((rs, rj) => {
         http.listen(port, () => {
-            console.log("Server running at port: " + port);
+            // console.log("Server running at port: " + port);
         });
     })
 }
@@ -40,7 +37,8 @@ const listen = () => {
 const connect = () =>
     new Promise((resolve, reject) => {
         mongoose.set("useCreateIndex", true);
-        mongoose.connect(config.DATABASE.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        mongoose.set('useFindAndModify', false);
+        mongoose.connect(config.DATABASE.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
         const db = mongoose.connection;
         db.on("error", () => reject("Please install and start your mongodb"));
         db.once("open", resolve);
@@ -64,3 +62,5 @@ process.on("uncaughtException", err => {
 process.on("unhandledRejection", err => {
     console.log(err.message);
 });
+
+module.exports = app
