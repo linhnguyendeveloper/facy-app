@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 const Joi = require('joi');
 
 const _Schema = new Schema({
-    id: { type: Schema.Types.ObjectId },
-    student_id: { type: Schema.Types.ObjectId },
-    subject_id: { type: Schema.Types.ObjectId },
+    email: { type: String, unique: true, index: true },
+    student_id: { type: String },
+    subject_id: { type: String },
     slot: { type: Number },
     status: { type: Boolean, default: true },
 }, {
@@ -14,25 +14,25 @@ const _Schema = new Schema({
 
 
 function validateCreate(data) {
-    const schema = {
+    const schema = Joi.object({
         id: Joi.string().require(),
         student_id: Joi.string().require(),
         subject_id: Joi.string().require(),
         slot: Joi.number().require(),
         status: Joi.string()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 }
 
 function validateEdit(data) {
-    const schema = {
+    const schema = Joi.object({
         id: Joi.string().require(),
         student_id: Joi.string().require(),
         subject_id: Joi.string().require(),
         slot: Joi.number().require(),
         status: Joi.string()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 }
 
 
@@ -44,8 +44,8 @@ _Schema.set('toJSON', { virtuals: true });
  */
 
 mongoose.set('useFindAndModify', false);
-const Facy_Schedule = mongoose.model("Facy_Schedule", _Schema,"Facy_Schedules");
+const Schedule = mongoose.model("Schedule", _Schema,"Facy_Schedules");
 exports.validateCreate = validateCreate;
 exports.validateEdit = validateEdit;
-exports.Facy_Schedule = Facy_Schedule;
+exports.Schedule = Schedule;
 // exports.validateLogin = validateLogin;

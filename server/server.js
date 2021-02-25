@@ -29,7 +29,7 @@ require(config.PATH_MODELS)
 const listen = () => {
     new Promise((rs, rj) => {
         http.listen(port, () => {
-            // console.log("Server running at port: " + port);
+            console.log("Server running at port: " + port);
         });
     })
 }

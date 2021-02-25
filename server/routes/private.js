@@ -4,6 +4,8 @@ const {confirmJWT} = require('../middleware')
 
 router.use(confirmJWT);
 router.use('/users', require('./users'));
+router.use('/class', require('./class'));
+
 
 
 

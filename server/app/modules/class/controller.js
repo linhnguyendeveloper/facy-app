@@ -1,21 +1,20 @@
 const mongoose = require("mongoose");
 const Serivce = require('./service');
 const constants = require('../../utils/constants')
-const bcrypt = require('bcryptjs');
-const { validateCreate, validateEdit } = require('../../models/users')
+const { validateCreate, validateEdit } = require('../../models/class')
 
 const getMany = (req, res) => {
-    Serivce.getMany().select("-password")
+    Serivce.getMany()
         .then(data => {
-            res.status(200).json(data)
+            return res.status(200).json(data)
         }).catch(err => {
-            res.status(401).json(err)
+            return res.status(401).json(err)
         })
 }
 
 const getOne = (req, res) => {
     let id = req.params.id;
-    Serivce.getOne(id).select("-password")
+    Serivce.getOne(id)
         .then((data) => {
             return res.status(constants.CODE.GET_OK).json(data);
         })
@@ -37,7 +36,6 @@ const create = (req, res) => {
         }, {})
         return res.status(constants.CODE.BAD_REQUEST).json(errors);
     } else {
-        data.password = bcrypt.hashSync(data.password, 10);
         Serivce.create(data)
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
@@ -55,6 +53,9 @@ const create = (req, res) => {
 const update = (req, res) => {
     let id = req.params.id
     let data = req.body
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
     let err = validateEdit(data)
     if (err && err.error) {
         let errors = err.error && err.error.details.reduce((result, item) => {

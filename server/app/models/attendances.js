@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 const Joi = require('joi');
 
 const _Schema = new Schema({
-    id: { type: Schema.Types.ObjectId },
-    class_id: { type: Schema.Types.ObjectId },
+    email: { type: String, unique: true, index: true },
+    class_id: { type: String },
     attendance: { type: Array},
     status: { type: Boolean, default: true },
 }, {
@@ -13,23 +13,23 @@ const _Schema = new Schema({
 
 
 function validateCreate(data) {
-    const schema = {
+    const schema = Joi.object({
         id: Joi.string().require(),
         class_id: Joi.string().require(),
         attendance: Joi.array().require(),
         status: Joi.string()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 }
 
 function validateEdit(data) {
-    const schema = {
+    const schema = Joi.object({
         id: Joi.string().require(),
         class_id: Joi.string().require(),
         attendance: Joi.array().require(),
         status: Joi.string()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 }
 
 
@@ -42,8 +42,8 @@ _Schema.set('toJSON', { virtuals: true });
  */
 
 mongoose.set('useFindAndModify', false);
-const Facy_Attendance = mongoose.model("Facy_Attendance", _Schema,"Facy_Attendances");
+const Attendance = mongoose.model("Attendance", _Schema,"Facy_Attendances");
 exports.validateCreate = validateCreate;
 exports.validateEdit = validateEdit;
-exports.Facy_Attendance = Facy_Attendance;
+exports.Attendance = Attendance;
 // exports.validateLogin = validateLogin;

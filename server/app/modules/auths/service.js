@@ -9,7 +9,7 @@ const login = async (body, res) => {
 
     const { email, password } = body;
 
-    let user = await User.findOne({ email, status: 'active' }).exec();
+    let user = await User.findOne({ email, status: true }).exec();
 
     if (!user || !user.checkPassword(password)) {
         return res.status(constants.CODE.BAD_REQUEST).send({ 'errors': "wrong email or password" });

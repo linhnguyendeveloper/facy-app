@@ -5,8 +5,8 @@ const bcrypt = require("bcryptjs");
 const dataMigrate = require('../../database/seeds/users')
 
 const _Schema = new Schema({
-    id: { type: Schema.Types.ObjectId },
-    fullname: { type: String },
+    email: { type: String, unique: true, index: true },
+    full_name: { type: String },
     email: { type: String, unique: true, index: true },
     password: { type: String, required: false },
     role: { type: Array },
@@ -18,29 +18,29 @@ const _Schema = new Schema({
 
 
 function validateCreate(data) {
-    const schema = {
-        id: Joi.string().require(),
-        fullname: Joi.string().require(),
+    const schema = Joi.object({
+        id: Joi.string().required(),
+        full_name: Joi.string().required(),
         email: Joi.string().min(5).max(100).required().email(),
         password: Joi.string().min(5).max(255).allow(''),
-        role: Joi.array().require(),
-        role_name: Joi.string().require(),
+        role: Joi.array().required(),
+        role_name: Joi.string().required(),
         status: Joi.string()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 }
 
 function validateEdit(data) {
-    const schema = {
-        id: Joi.string().require(),
-        fullname: Joi.string().require(),
+    const schema = Joi.object({
+        id: Joi.string().required(),
+        full_name: Joi.string().required(),
         email: Joi.string().min(5).max(100).required().email(),
         password: Joi.string().min(5).max(255).allow(''),
-        role: Joi.array().require(),
-        role_name: Joi.string().require(),
+        role: Joi.array().required(),
+        role_name: Joi.string().required(),
         status: Joi.string()
-    };
-    return Joi.validate(data, schema);
+    });
+    return schema.validate(data);
 }
 // const dataMigrate = [
 //     {
@@ -91,8 +91,8 @@ _Schema.set('toJSON', { virtuals: true });
  */
 
 mongoose.set('useFindAndModify', false);
-const Facy_User = mongoose.model("Facy_User", _Schema,"Facy_Users");
+const User = mongoose.model("User", _Schema,"Facy_Users");
 exports.validateCreate = validateCreate;
 exports.validateEdit = validateEdit;
-exports.Facy_User = Facy_User;
+exports.User = User;
 // exports.validateLogin = validateLogin;

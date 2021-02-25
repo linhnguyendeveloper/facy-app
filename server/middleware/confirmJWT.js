@@ -16,24 +16,22 @@ const addToNodeLocalstorage = (key, value) => {
 
 module.exports = async (req, res, next) => {
     let token = req.headers.authorization;
-
     if (token) {
         let decodedToken;
         try {
             decodedToken = pareJwtToken(token);
             await User.findById(decodedToken._id).then(async doc => {
-                if(!doc || !doc.checkPassword(decodedToken.password))
-                    return res.status(constants.CODE.BAD_REQUEST).json({'token':"wrong token"});
-
-                    req.user = doc; 
+                if (!doc || !doc.checkPassword(decodedToken.password))
+                    return res.status(constants.CODE.BAD_REQUEST).json({ 'token': "wrong token" });
+                req.user = doc;
                 next();
             })
         } catch (err) {
-           
-            return res.status(constants.CODE.BAD_REQUEST).json({'token':"wrong token"});
+
+            return res.status(constants.CODE.BAD_REQUEST).json({ 'token': "wrong token" });
         }
     } else {
         // addToNodeLocalstorage('fromURLAdmin', req.originalUrl)
-        return res.status(constants.CODE.BAD_REQUEST).json({'token':"wrong token"});
+        return res.status(constants.CODE.BAD_REQUEST).json({ 'token': "wrong token" });
     }
 };

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Controller } = require('../../app/modules/users');
+const { Controller } = require('../../app/modules/class');
 
 
 router.get("/view", Controller.getMany)
