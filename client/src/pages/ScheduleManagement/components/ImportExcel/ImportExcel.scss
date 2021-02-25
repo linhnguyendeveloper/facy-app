@@ -1,0 +1,19 @@
+.import-excel-input {
+  opacity: 1;
+  z-index: -1;
+  position: absolute;
+  color: green;
+  border-color: green;
+  @media (min-width: 320px) {
+    margin-right: 0px;
+  }
+  
+}
+.import-excel {
+  margin-bottom: 10px;
+  .file-add-outlined {
+    color: green
+    }
+}
+
+  

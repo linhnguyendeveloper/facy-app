@@ -17,6 +17,9 @@ import {
 // deleteManyAttendancesApi
 // '../../services/api/attendances'
 import data from '../../mockData'
+import dataJson from '../../SSC102.json'
+import dataJson2 from '../../ITE302b.json'
+
 function get_all_attendances(attendances) {
   return {
     type: GET_ATTENDANCES_SUCCESS,
@@ -25,7 +28,7 @@ function get_all_attendances(attendances) {
 }
 export const getAttendances = token => {
   return dispatch => {
-    dispatch(get_all_attendances(data.attendances))
+    dispatch(get_all_attendances([dataJson.data,dataJson2.data]))
     //   getAttendancesApi(token)
     //     .then(res => {
     //       dispatch(get_all_attendances(res?.data))

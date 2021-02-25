@@ -17,18 +17,16 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
     getAttendances('token')
   }, [getTeachers, getAttendances])
   const [modalScheduleDetailOpen, setModalScheduleDetailOpen] = useState(false)
-  const [selectedScheduleId, setSelectedScheduleId] = useState('')
+  const [selectedScheduleDay, setSelectedScheduleDay] = useState([])
   const handleSelectSchedule = id => {
-    setSelectedScheduleId(id)
+    setSelectedScheduleDay(id)
     setModalScheduleDetailOpen(true)
   }
   const handleCancelOpenDetail = () => {
+    setSelectedScheduleDay([])
     setModalScheduleDetailOpen(false)
   }
 
-  const modalScheduleDetailData = attendances.find(
-    item => item._id === selectedScheduleId
-  )
   return (
     <div>
    
@@ -45,7 +43,7 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
       <ModalScheduleDetail
         modalScheduleDetailOpen={modalScheduleDetailOpen}
         handleCancelOpenDetail={handleCancelOpenDetail}
-        modalScheduleDetailData={modalScheduleDetailData}
+        modalScheduleDetailData={selectedScheduleDay}
       />
     </div>
   )

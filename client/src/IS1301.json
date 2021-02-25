@@ -1,0 +1,146 @@
+{
+  "student": [
+      {
+          "studentRollID": 1,
+          "studentID": "DE130001",
+          "stutdentName": "Trần Văn Chương",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 2,
+          "studentID": "DE130002",
+          "studentName": "Nguyễn Việt Linh",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 3,
+          "studentID": "DE130006",
+          "studentName": "Bùi Thanh Tịnh",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 4,
+          "studentID": "DE130012",
+          "studentName": "Phạm Nguyên Ngọc",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      }
+  ,
+      {
+          "studentRollID": 5,
+          "studentID": "DE130018",
+          "studentName": "Nguyễn Viết Thuận",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 6,
+          "studentID": "DE130040",
+          "studentName": "Huỳnh Thị Nhật uyên",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 7,
+          "studentID": "DE130045",
+          "studentName": "Nguyễn Tâm Nguyên",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID":8,
+          "studentID": "DE130048",
+          "studentName": "Nguyễn Tấn Khôi Nguyên",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 9,
+          "studentID": "DE130050",
+          "studentName": "Phan Bùi Trung ANh",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 10,
+          "studentID": "DE130055",
+          "studentName": "Nguyễn Thị Thảo Uyên",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 11,
+          "studentID": "DE130056",
+          "studentName": "Võ Trần Đình Long",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 12,
+          "studentID": "DE130063",
+          "studentName": "Đỗ Thế  Dương",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 13,
+          "studentID": "DE130068",
+          "studentName": "Hồ Ngọc Vĩnh Hân",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 14,
+          "studentID": "DE130076",
+          "studentName": "Trần Đông Phương",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 15,
+          "studentID": "DE130078",
+          "studentName": "Đặng Đức Hiếu",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 16,
+          "studentID": "DE130091",
+          "studentName": "Trương Ngọc Hải Long",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+     
+      {
+          "studentRollID": 17,
+          "studentID": "DE130106",
+          "studentName": "Trần Huy Vũ",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 18,
+          "studentID": "DE130117",
+          "studentName": "Lê Phương Phương",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 19,
+          "studentID": "DE130138",
+          "studentName": "Nguyễn Thanh Hải",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      },
+      {
+          "studentRollID": 20,
+          "studentID": "DE130151",
+          "studentName": "Vũ Hoàng Nam",
+          "attendance": true,
+          "timeRecord": "hh:mm:ss"
+      }
+  ]
+}

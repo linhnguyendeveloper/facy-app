@@ -1,79 +1,87 @@
-import React from 'react'
-import { Calendar, Badge, Tag } from 'antd'
-import '../style.scss'
-import { EyeOutlined } from '@ant-design/icons'
+import React from "react";
+import { Calendar, Badge, Tag } from "antd";
+import "../style.scss";
+import { EyeOutlined } from "@ant-design/icons";
 
 const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
-  const getListData = value => {
-    const dateData = attendances.filter(
-      item =>
-        item.date === value.format('DD-MM-YYYY') && item.teacher === 'phuc'
-    )
-    let listData
+  let schedules = []
+  attendances.forEach(item=>{
+    schedules = [...schedules,...item.schedule.map(lesson=>{
+      return {
+        className: item.className,
+        courseID: item.courseID,
+        courseName: item.courseName,
+        lectureID:item.lectureID,
+        lectureName:item.lectureName,
+        lessonCount:lesson.lessonCount,
+        date:lesson.date,
+        room:lesson.room,
+        slot:lesson.slot,
+        studentCount:lesson.studentCount,
+      }
+    })]
+  })
+;
+// console.log(schedules,attendances);
+  const currentTeacher =  "TrangNTD11@fpt.edu.vn"
+  const getListData = (value) => {
+    const dateData = schedules.filter(
+      (item) =>
+        item.date === value.format("MM/DD/YYYY")
+        //  && item.lectureID ===currentTeacher,
+    );
+    let listData;
 
     listData = dateData
-      ? dateData.map(item => {
+      ? dateData.map((item) => {
           return {
-            type: 'success',
-            class: item.class,
-            course: item.course,
+            type: "success",
+            className: item.className,
+            courseID: item.courseID,
             room: item.room,
-            id: item._id,
-            slot: item.slot
-          }
+            lessonCount: item.lessonCount,
+            slot: item.slot,
+          };
         })
-      : []
-
-    return listData
-  }
-  const dateCellRender = value => {
-    const listData = getListData(value)
-    return listData.map(item => (
-      <div className="date-cell">
-        {item.id === '5ffa6c2fd7a2d3d62ebzzc21b7x3535' ? (
-          <Tag
-            color="gray"
-            onClick={() => handleSelectSchedule(item.id)}
-            icon={<EyeOutlined />}
-          >
-            {item.course}
-          </Tag>
-        ) : (
-          <Tag
-            color="#108ee9"
-            onClick={() => handleSelectSchedule(item.id)}
-            icon={<EyeOutlined />}
-          >
-            {item.course}
-          </Tag>
-        )}
+      : [];
+      console.log(listData);
+      return listData;
+  };
+  const dateCellRender = (value) => {
+    const listData = getListData(value);
+      if(listData.length>0)
+      return <div className="date-cell">
+        <Tag
+          color="processing"
+          onClick={() => handleSelectSchedule(listData)}
+          icon={<EyeOutlined />}
+        > View </Tag>
       </div>
-    ))
-  }
-  const monthCellRender = value => {
-    const num = getMonthData(value)
+  };
+  const monthCellRender = (value) => {
+    const num = getMonthData(value);
     return num ? (
       <div className="notes-month">
         <section>{num}</section>
         <span>Backlog number</span>
       </div>
-    ) : null
-  }
-  const getMonthData = value => {
+    ) : null;
+  };
+  const getMonthData = (value) => {
     if (value.month() === 8) {
-      return 1394
+      return 1394;
     }
-  }
+  };
 
   return (
     <div>
       <Calendar
-        style={{ padding: 20, border: '1px solid black' }}
+        style={{ padding: 20, border: "1px solid black" }}
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
       />
     </div>
-  )
-}
+  );
+};
 
-export default TeacherSchedule
+export default TeacherSchedule;

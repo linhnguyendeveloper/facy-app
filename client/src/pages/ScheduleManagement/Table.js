@@ -4,6 +4,7 @@ import { Select, Table } from "antd";
 import Add from "./components/Add";
 import ModalAddEdit from "./components/ModalAddEdit";
 import ModalUsers from "./components/ModalUsers";
+import ImportExcel from "./components/ImportExcel";
 const { Option } = Select;
 const TableManagement = ({ attendances }) => {
   const [visibleModal, setVisibleModal] = useState(false);
@@ -39,6 +40,7 @@ const TableManagement = ({ attendances }) => {
           return <Option value={item.courseID}>{item.courseID}</Option>;
         })}
       </Select>
+      <ImportExcel/>
       <ModalAddEdit
         visibleModal={visibleModal}
         setVisibleModal={setVisibleModal}

@@ -1,0 +1,74 @@
+{
+    "student": [
+        {
+            "studentRollID": 1,
+            "studentID": "DE130014",
+            "studentName": "Lê Văn Trí",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 2,
+            "studentID": "DE130018",
+            "studentName": "Đỗ Đức Trọng",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 3,
+            "studentID": "DE130036",
+            "studentName": "Lê Minh Trí",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 4,
+            "studentID": "DE130081",
+            "studentName": "Nguyễn Nhật Linh",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 5,
+            "studentID": "DE130095",
+            "studentName": "Lê Văn Hoàng Sơn",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 6,
+            "studentID": "DE130098",
+            "studentName": "Nguyễn Chánh Đạo",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 7,
+            "studentID": "DE130104",
+            "studentName": "Phạm Hải Linh",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID":8,
+            "studentID": "DE130112",
+            "studentName": "Lê Hòa",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 9,
+            "studentID": "DE130148",
+            "studentName": "Ngô Thị Thanh",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        },
+        {
+            "studentRollID": 10,
+            "studentID": "SE63293",
+            "studentName": "Nguyễn Vũ Nhật Quang",
+            "attendance": true,
+            "timeRecord": "hh:mm:ss"
+        }
+    ]
+}
