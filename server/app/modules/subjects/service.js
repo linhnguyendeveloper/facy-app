@@ -1,29 +1,29 @@
-const { User } = require('../../models/users');
+const { Subject } = require('../../models/subjects');
 
 const getMany = () => {
-  return User.find({ deleted: {$ne:true} });
+  return Subject.find({ deleted: {$ne:true} });
 }
 
 const getOne = (id) => {
-  return User.findOne({ _id: id, deleted: {$ne:true} });
+  return Subject.findOne({ _id: id, deleted: {$ne:true} });
 }
 const getByEmail = (email) => {
-  return User.find({ email: email });
+  return Subject.find({ email: email });
 }
 const create = (data) => {
-  return User.create(data);
+  return Subject.create(data);
 }
 
 const update = (id, data) => {
-  return User.findById(id).update(data)
+  return Subject.findById(id).update(data)
 }
 
 const deleteOne = (id) => {
-  return User.findById(id).update({ deleted: true })
+  return Subject.findById(id).update({ deleted: true })
 }
 
 const deleteMany = (ids) => {
-  return User.find(
+  return Subject.find(
     {
       _id: { $in: ids },
     }).update({ deleted: true })

@@ -42,7 +42,7 @@ const create = (req, res) => {
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
                     message: "create successful",
-                    
+
                 });
             })
             .catch((err) => {
@@ -53,6 +53,7 @@ const create = (req, res) => {
 }
 
 const update = (req, res) => {
+
     let id = req.params.id
     let data = req.body
     let err = validateEdit(data)
@@ -63,6 +64,7 @@ const update = (req, res) => {
                 [item.path[0]]: item.message
             }
         }, {})
+        console.log('errors : ', errors);
         return res.status(constants.CODE.BAD_REQUEST).json(errors);
     }
     else {
@@ -70,7 +72,8 @@ const update = (req, res) => {
             data.img = req.files.img[0]
         } else delete data.img
 
-        data.password = bcrypt.hashSync(data.password, 10);
+        if (data.password)
+            data.password = bcrypt.hashSync(data.password, 10);
         Serivce.update(id, data)
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({

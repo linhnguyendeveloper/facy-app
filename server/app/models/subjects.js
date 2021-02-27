@@ -3,10 +3,12 @@ const Schema = mongoose.Schema;
 const Joi = require('joi');
 
 const _Schema = new Schema({
+    id: { type: String, unique: true, index: true },
     email: { type: String, unique: true, index: true },
     name: { type: String },
     teacher_id: { type: String },
     status: { type: Boolean, default: true },
+    deleted: { type: Boolean },
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
@@ -14,20 +16,22 @@ const _Schema = new Schema({
 
 function validateCreate(data) {
     const schema = Joi.object({
-        id: Joi.string().require(),
-        name: Joi.string().require(),
-        teacher_id: Joi.string().require(),
-        status: Joi.string()
+        id: Joi.string().required(),
+        name: Joi.string().required(),
+        teacher_id: Joi.string().required(),
+        status: Joi.boolean(),
+        deleted: Joi.boolean()
     });
     return schema.validate(data);
 }
 
 function validateEdit(data) {
     const schema = Joi.object({
-        id: Joi.string().require(),
-        name: Joi.string().require(),
-        teacher_id: Joi.string().require(),
-        status: Joi.string()
+        id: Joi.string(),
+        name: Joi.string(),
+        teacher_id: Joi.string(),
+        status: Joi.boolean(),
+        deleted: Joi.boolean()
     });
     return schema.validate(data);
 }

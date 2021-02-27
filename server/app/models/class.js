@@ -7,6 +7,7 @@ const _Schema = new Schema({
     name: { type: String },
     teacher_id: { type: String },
     status: { type: Boolean, default: true },
+    deleted: { type: Boolean },
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
@@ -17,17 +18,19 @@ function validateCreate(data) {
         id: Joi.string().required(),
         name: Joi.string().required(),
         teacher_id: Joi.string().required(),
-        status: Joi.string()
+        status: Joi.boolean(),
+        deleted: Joi.boolean()
     });
     return schema.validate(data);
 }
 
 function validateEdit(data) {
     const schema = Joi.object({
-        id: Joi.string().required(),
-        name: Joi.string().required(),
-        teacher_id: Joi.string().required(),
-        status: Joi.string()
+        id: Joi.string(),
+        name: Joi.string(),
+        teacher_id: Joi.string(),
+        status: Joi.boolean(),
+        deleted: Joi.boolean()
     });
     return schema.validate(data);
 }

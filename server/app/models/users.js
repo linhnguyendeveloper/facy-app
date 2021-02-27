@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const dataMigrate = require('../../database/seeds/users')
 
 const _Schema = new Schema({
+    id: { type: String, unique: true, index: true },
     email: { type: String, unique: true, index: true },
     full_name: { type: String },
     email: { type: String, unique: true, index: true },
@@ -12,6 +13,7 @@ const _Schema = new Schema({
     role: { type: Array },
     role_name: { type: String },
     status: { type: Boolean, default: true },
+    deleted: { type: Boolean },
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
@@ -25,20 +27,22 @@ function validateCreate(data) {
         password: Joi.string().min(5).max(255).allow(''),
         role: Joi.array().required(),
         role_name: Joi.string().required(),
-        status: Joi.string()
+        status: Joi.boolean(),
+        deleted: Joi.boolean()
     });
     return schema.validate(data);
 }
 
 function validateEdit(data) {
     const schema = Joi.object({
-        id: Joi.string().required(),
-        full_name: Joi.string().required(),
-        email: Joi.string().min(5).max(100).required().email(),
-        password: Joi.string().min(5).max(255).allow(''),
-        role: Joi.array().required(),
-        role_name: Joi.string().required(),
-        status: Joi.string()
+        id: Joi.string(),
+        full_name: Joi.string(),
+        email: Joi.string(),
+        password: Joi.string(),
+        role: Joi.array(),
+        role_name: Joi.string(),
+        status: Joi.boolean(),
+        deleted: Joi.boolean()
     });
     return schema.validate(data);
 }

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Serivce = require('./service');
 const constants = require('../../utils/constants')
-const { validateCreate, validateEdit } = require('../../models/class')
+const { validateCreate, validateEdit } = require('../../models/attendances')
 
 const getMany = (req, res) => {
     Serivce.getMany()
@@ -24,8 +24,33 @@ const getOne = (req, res) => {
 }
 
 
+const getCountOne = (req, res) => {
+    const {class_id,subject_id} = req.params;
+    Serivce.getCountOne(class_id)
+        .then((data) => {
+            let countData = 0;
+            data.attendance.forEach(week => {
+                if (week) week.data_in_week.forEach(date => {
+                    console.log(1);
+                    if (date) date.data_in_date.forEach(item => {
+                        if (item.subject_id === subject_id){
+                            countData++;
+                            console.log(9);
+                        }
+                    })
+                })
+            })
+            return res.status(constants.CODE.GET_OK).json({count:countData});
+        })
+        .catch((err) => {
+            return res.status(constants.CODE.BAD_REQUEST).json(err.message);
+        })
+}
+
+
 const create = (req, res) => {
     let data = req.body
+
     const err = validateCreate(data)
     if (err && err.error) {
         let errors = err.error && err.error.details.reduce((result, item) => {
@@ -40,7 +65,7 @@ const create = (req, res) => {
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
                     message: "create successful",
-                    
+
                 });
             })
             .catch((err) => {
@@ -114,6 +139,7 @@ module.exports = {
     create,
     update,
     deleteOne,
-    deleteMany
+    deleteMany,
+    getCountOne
 
 }

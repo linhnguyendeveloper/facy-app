@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Serivce = require('./service');
 const constants = require('../../utils/constants')
-const { validateCreate, validateEdit } = require('../../models/class')
+const { validateCreate, validateEdit } = require('../../models/subjects')
 
 const getMany = (req, res) => {
     Serivce.getMany()

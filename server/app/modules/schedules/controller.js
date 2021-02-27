@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Serivce = require('./service');
 const constants = require('../../utils/constants')
-const { validateCreate, validateEdit } = require('../../models/class')
+const { validateCreate, validateEdit } = require('../../models/schedules')
 
 const getMany = (req, res) => {
     Serivce.getMany()
@@ -26,6 +26,7 @@ const getOne = (req, res) => {
 
 const create = (req, res) => {
     let data = req.body
+
     const err = validateCreate(data)
     if (err && err.error) {
         let errors = err.error && err.error.details.reduce((result, item) => {
@@ -40,7 +41,7 @@ const create = (req, res) => {
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
                     message: "create successful",
-                    
+
                 });
             })
             .catch((err) => {
@@ -48,6 +49,24 @@ const create = (req, res) => {
             })
 
     }
+}
+
+const createMany = (req, res) => {
+    let data = req.body
+    data = data.filter(item => !validateCreate(item))
+    Serivce.createMany(data)
+    .then((data) => {
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
+        return res.status(constants.CODE.CREATE_OK).json({
+            message: "create successful",
+
+        });
+    })
+    .catch((err) => {
+        return res.status(constants.CODE.BAD_REQUEST).json(err.message);
+    })
 }
 
 const update = (req, res) => {
