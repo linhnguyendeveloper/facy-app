@@ -14,42 +14,83 @@ import CustomFooter from "./components/CustomFooter";
 import { Layout } from "antd";
 import ScheduleManagement from "./pages/ScheduleManagement";
 import Dashboard from "./pages/Dashboard";
+import io from "socket.io-client";
 
-// const firebaseApp = firebase.initializeApp(firebaseConfig)
-// const firebaseAppAuth = firebaseApp.auth()
-// const providers = {
-//   googleProvider: new firebase.auth.GoogleAuthProvider()
-// }
-// require('firebase/database')
-// require('firebase')
 class App extends React.Component {
+  state = {
+    message:''
+  }
+  componentWillMount() {
+    this.socket = io("localhost:3001");
+    this.socket.on("id", (res) => this.setState({ user: res })); // lắng nghe event có tên 'id'
+    this.socket.on("newMessage", (response) => {
+      this.newMessage(response);
+    }); //lắng nghe event 'newMessage' và gọi hàm newMessage khi có event
+  }
+  //Khi có tin nhắn mới, sẽ push tin nhắn vào state mesgages, và nó sẽ được render ra màn hình
+  newMessage(m) {
+    console.log(m);
+    this.setState({
+      message:this.state.message+m
+    })
+    // const messages = this.state.messages;
+    // let ids = _map(messages, "id");
+    // let max = Math.max(...ids);
+    // messages.push({
+    //   id: max + 1,
+    //   userId: m.id,
+    //   message: m.data,
+    // });
+
+    // let objMessage = $(".messages");
+    // if (
+    //   objMessage[0].scrollHeight - objMessage[0].scrollTop ===
+    //   objMessage[0].clientHeight
+    // ) {
+    //   this.setState({ messages });
+    //   objMessage.animate({ scrollTop: objMessage.prop("scrollHeight") }, 300); //tạo hiệu ứng cuộn khi có tin nhắn mới
+    // } else {
+    //   this.setState({ messages });
+    //   if (m.id === this.state.user) {
+    //     objMessage.animate({ scrollTop: objMessage.prop("scrollHeight") }, 300);
+    //   }
+    // }
+  }
+  //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn
+  sendnewMessage(m) {
+    if (m.value) {
+      this.socket.emit("newMessage", m.value); //gửi event về server
+      m.value = "";
+    }
+  }
   render() {
     return (
       <div className="App">
+        {this.state.message}
+        {/* <Switch>
+          <Layout style={{ minHeight: "100vh" }}>
+            <CustomMenu />
+            <Layout>
+              <CustomHeader />
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/login" />
+                </Route>
+                <Route path="/login" component={Login} exact />
 
-        <Switch>
-          
-        <Layout style={{ minHeight: "100vh" }}>
-          <CustomMenu />
-          <Layout>
-            <CustomHeader />
-            <Switch>
-              <Route exact path="/">
-                <Redirect to="/login" />
-              </Route>
-              <Route path="/login" component={Login} exact />
-
-              <Route path="/attendances" component={Attendances} exact />
-              <Route path="/dashboard" component={Dashboard} exact />
-              <Route path="/teachers" component={Teachers} exact />
-              <Route path="/admin/schedule-management" component={ScheduleManagement} exact />
-            </Switch>
-            <CustomFooter />
+                <Route path="/attendances" component={Attendances} exact />
+                <Route path="/dashboard" component={Dashboard} exact />
+                <Route path="/teachers" component={Teachers} exact />
+                <Route
+                  path="/admin/schedule-management"
+                  component={ScheduleManagement}
+                  exact
+                />
+              </Switch>
+              <CustomFooter />
+            </Layout>
           </Layout>
-          </Layout>
-
-        </Switch>
-
+        </Switch> */}
       </div>
     );
   }

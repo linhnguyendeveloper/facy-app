@@ -68,7 +68,6 @@ export const importExcel = (
         status: item.status ? item.status: 2
       };
     });
-    console.log(dataPosts)
     await postMany(dataPosts, token);
     message.info("Import excel thành công !");
     setTimeout(()=> {

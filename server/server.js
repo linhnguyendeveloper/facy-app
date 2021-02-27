@@ -8,18 +8,30 @@ const config = require("./config/index");
 const app = express();
 const http = require("http").Server(app);
 const port = process.env.PORT || 3000;
+var cors = require('cors')
 
 require('./config/express')(app);
+app.use(cors())
 
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+    cors: {
+      origin: '*',
+    }
+  });
 
-io.on("connection", function (socket) {
-    socket.on('news', function (data) { //lắng nghe event 'all client'
-        io.sockets.emit('news', socket.id + ' send all client: ' + data); // gửi cho tất cả client
-    });
-
-})
-
+io.on('connection', function(socket){
+    console.log(socket.id + ': connected');
+    socket.emit('id', socket.id);
+  
+    socket.on('disconnect', function(){
+      console.log(socket.id + ': disconnected')
+    })
+    setInterval(()=>socket.emit('newMessage', "ahihi"),3000)
+    socket.on('newMessage', data => {
+      io.sockets.emit('newMessage', {data: data, id: socket.id});
+      console.log(data);
+    })
+});
 
 require(config.PATH_MODELS)
     .map(modelName => `${config.PATH_MODELS}/${modelName}`)

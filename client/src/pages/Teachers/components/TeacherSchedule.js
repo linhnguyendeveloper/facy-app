@@ -44,7 +44,6 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
           };
         })
       : [];
-      console.log(listData);
       return listData;
   };
   const dateCellRender = (value) => {
