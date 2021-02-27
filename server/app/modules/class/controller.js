@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const Serivce = require('./service');
+const Service = require('./service');
 const constants = require('../../utils/constants')
 const { validateCreate, validateEdit } = require('../../models/class')
 
 const getMany = (req, res) => {
-    Serivce.getMany()
+    Service.getMany()
         .then(data => {
             return res.status(200).json(data)
         }).catch(err => {
@@ -14,7 +14,7 @@ const getMany = (req, res) => {
 
 const getOne = (req, res) => {
     let id = req.params.id;
-    Serivce.getOne(id)
+    Service.getOne(id)
         .then((data) => {
             return res.status(constants.CODE.GET_OK).json(data);
         })
@@ -36,7 +36,7 @@ const create = (req, res) => {
         }, {})
         return res.status(constants.CODE.BAD_REQUEST).json(errors);
     } else {
-        Serivce.create(data)
+        Service.create(data)
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
                     message: "create successful",
@@ -65,7 +65,7 @@ const update = (req, res) => {
     }
     else {
 
-        Serivce.update(id, data)
+        Service.update(id, data)
             .then((data) => {
                 return res.status(constants.CODE.CREATE_OK).json({
                     message: "edit successful"
@@ -79,7 +79,7 @@ const update = (req, res) => {
 
 const deleteOne = (req, res) => {
     let id = req.params.id
-    Serivce.deleteOne(id)
+    Service.deleteOne(id)
         .then(() => {
             return res.status(constants.CODE.DELETE_OK).json({
                 message: "delete successful"
@@ -92,7 +92,7 @@ const deleteOne = (req, res) => {
 
 const deleteMany = (req, res) => {
     let ids = req.body.ids;
-    Serivce.deleteMany(ids)
+    Service.deleteMany(ids)
         .then(() => {
             return res.status(constants.CODE.DELETE_OK).json({
                 message: "delete successful"

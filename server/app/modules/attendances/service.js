@@ -1,20 +1,24 @@
 const { Attendance } = require('../../models/attendances');
 
 const getMany = () => {
-  return Attendance.find({ deleted: { $ne: true } });
+  return Attendance.find({ deleted: {$ne:true} });
 }
 
 const getOne = (id) => {
-  return Attendance.findOne({ _id: id, deleted: { $ne: true } });
+  return Attendance.findOne({ _id: id, deleted: {$ne:true} });
 }
-const getCountOne = (id) => {
-  return Attendance.findOne({ id, deleted: { $ne: true } });
+const getCount = () => {
+  return Attendance.countDocuments({  deleted: {$ne:true} });
 }
+
 const getByEmail = (email) => {
   return Attendance.find({ email: email });
 }
 const create = (data) => {
   return Attendance.create(data);
+}
+const createMany = (data) => {
+  return Attendance.insertMany(data);
 }
 
 const update = (id, data) => {
@@ -40,5 +44,6 @@ module.exports = {
   deleteOne,
   deleteMany,
   getByEmail,
-  getCountOne
+  createMany,
+  getCount
 }

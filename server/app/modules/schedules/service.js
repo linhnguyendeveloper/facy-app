@@ -1,20 +1,20 @@
 const { Schedule } = require('../../models/schedules');
 
 const getMany = () => {
-  return Schedule.find({ deleted: {$ne:true} });
+  return Schedule.find({ deleted: { $ne: true } });
 }
 
 const getOne = (id) => {
-  return Schedule.findOne({ _id: id, deleted: {$ne:true} });
+  return Schedule.findOne({ _id: id, deleted: { $ne: true } });
+}
+const getCountOne = (id) => {
+  return Schedule.findOne({ id, deleted: { $ne: true } });
 }
 const getByEmail = (email) => {
   return Schedule.find({ email: email });
 }
 const create = (data) => {
   return Schedule.create(data);
-}
-const createMany = (data) => {
-  return Schedule.insertMany(data);
 }
 
 const update = (id, data) => {
@@ -40,5 +40,5 @@ module.exports = {
   deleteOne,
   deleteMany,
   getByEmail,
-  createMany
+  getCountOne
 }
