@@ -1,7 +1,7 @@
 const { Schedule } = require('../../models/schedules');
 
-const getMany = () => {
-  return Schedule.find({ deleted: { $ne: true } });
+const getMany = (where={},filter={}) => {
+  return Schedule.find({ deleted: {$ne:true},...where },filter);
 }
 
 const getOne = (id) => {

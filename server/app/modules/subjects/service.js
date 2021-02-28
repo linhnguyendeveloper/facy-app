@@ -1,11 +1,14 @@
 const { Subject } = require('../../models/subjects');
 
-const getMany = () => {
-  return Subject.find({ deleted: {$ne:true} });
+const getMany = (where={},filter={}) => {
+  return Subject.find({ deleted: {$ne:true},...where },filter);
 }
 
 const getOne = (id) => {
   return Subject.findOne({ _id: id, deleted: {$ne:true} });
+}
+const getOneWhere = (where={}) => {
+  return Subject.findOne({...where, deleted: {$ne:true} });
 }
 const getByEmail = (email) => {
   return Subject.find({ email: email });
@@ -36,5 +39,6 @@ module.exports = {
   update,
   deleteOne,
   deleteMany,
-  getByEmail
+  getByEmail,
+  getOneWhere
 }

@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const Service = require("./service");
 const constants = require("../../utils/constants");
-const { validateCreate, validateEdit } = require("../../models/schedules");
+const { validateCreate, validateEdit } = require("../../models/attendances");
+const { required } = require("joi");
+const { Socket } = require("../../../config/socketio");
 
 const getMany = (req, res) => {
   Service.getMany()
@@ -24,29 +26,9 @@ const getOne = (req, res) => {
     });
 };
 
-const getCountOne = (req, res) => {
-  const { class_id, subject_id } = req.params;
-  Service.getCountOne(class_id)
-    .then((data) => {
-      let countData = 0;
-      data.attendance.forEach((week) => {
-        if (week)
-          week.data_in_week.forEach((date) => {
-            if (date)
-              date.data_in_date.forEach((item) => {
-                if (item.subject_id === subject_id) countData++;
-              });
-          });
-      });
-      return res.status(constants.CODE.GET_OK).json({ count: countData });
-    })
-    .catch((err) => {
-      return res.status(constants.CODE.BAD_REQUEST).json(err.message);
-    });
-};
-
 const create = (req, res) => {
   let data = req.body;
+
   const err = validateCreate(data);
   if (err && err.error) {
     let errors =
@@ -61,6 +43,7 @@ const create = (req, res) => {
   } else {
     Service.create(data)
       .then((data) => {
+        sendCountAttendance();
         return res.status(constants.CODE.CREATE_OK).json({
           message: "create successful",
         });
@@ -69,6 +52,20 @@ const create = (req, res) => {
         return res.status(constants.CODE.BAD_REQUEST).json(err.message);
       });
   }
+};
+
+const createMany = (req, res) => {
+  let data = req.body;
+  data = data.filter((item) => !validateCreate(item));
+  Service.createMany(data)
+    .then((data) => {
+      return res.status(constants.CODE.CREATE_OK).json({
+        message: "create successful",
+      });
+    })
+    .catch((err) => {
+      return res.status(constants.CODE.BAD_REQUEST).json(err.message);
+    });
 };
 
 const update = (req, res) => {
@@ -124,6 +121,20 @@ const deleteMany = (req, res) => {
     });
 };
 
+const sendCountAttendance = () => {
+  // socket
+  Service.getCount()
+    .then((data) => {
+      console.log('====================================');
+      console.log('count : ',data);
+      console.log('====================================');
+    })
+    .catch((err) => {
+    //   return res.status(constants.CODE.BAD_REQUEST).json(err.message);
+    });
+  Socket.emit("id", "ahihihihihi");
+};
+
 module.exports = {
   getMany,
   getOne,
@@ -131,5 +142,4 @@ module.exports = {
   update,
   deleteOne,
   deleteMany,
-  getCountOne,
 };

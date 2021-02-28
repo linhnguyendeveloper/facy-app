@@ -6,6 +6,7 @@ const _Schema = new Schema({
     id: { type: String, unique: true, index: true },
     name: { type: String },
     teacher_id: { type: String },
+    students_email: { type: Array },
     status: { type: Boolean, default: true },
     deleted: { type: Boolean },
 }, {
@@ -18,6 +19,7 @@ function validateCreate(data) {
         id: Joi.string().required(),
         name: Joi.string().required(),
         teacher_id: Joi.string().required(),
+        students_email : Joi.array(),
         status: Joi.boolean(),
         deleted: Joi.boolean()
     });
@@ -29,6 +31,7 @@ function validateEdit(data) {
         id: Joi.string(),
         name: Joi.string(),
         teacher_id: Joi.string(),
+        students_email : Joi.array(),
         status: Joi.boolean(),
         deleted: Joi.boolean()
     });

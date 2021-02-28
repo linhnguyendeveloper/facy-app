@@ -2,7 +2,7 @@ const router = require('express').Router();
 const {confirmJWT} = require('../middleware')
 
 
-// router.use(confirmJWT);
+router.use(confirmJWT);
 router.use('/users', require('./users'));
 router.use('/class', require('./class'));
 router.use('/subjects', require('./subjects'));

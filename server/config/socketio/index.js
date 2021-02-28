@@ -1,38 +1,19 @@
 
-
-const express = require("express");
-const app = express();
-const http = require("http").Server(app);
-
-
-const io = require('socket.io')(http, {
-  cors: {
-    origin: '*',
-  }
-});
-
-let Socket = {
-  emit: function (event, data) {
-    console.log(event, data);
-    io.sockets.emit(event, data);
-  },
-  on: function (event, data) {
-    console.log(event, data);
-    io.sockets.on(event, data);
-  },
-};
-
-const connect = () => {
+const SocketIo = (io) =>  {
   io.on("connection", function (socket) {
-    console.log("A user connected");
+    console.log(socket.id + ": connected");
+    socket.emit("id", socket.id);
+
     socket.on("disconnect", function () {
       console.log(socket.id + ": disconnected");
     });
-  });
+    setInterval(() => socket.emit("newMessage", "ahihi"), 3000);
+    socket.on("newMessage", (data) => {
+      io.sockets.emit("newMessage", { data: data, id: socket.id });
+      console.log(data);
+    });
+  })
+
 }
 
-
-exports.Socket = Socket;
-exports.connect = connect;
-
-
+module.exports = SocketIo;
