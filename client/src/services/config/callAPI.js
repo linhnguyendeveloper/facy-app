@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { getActionName } from '../../utils/getActionName'
 import baseUrl from '../api/index'
 export const callAPI = (method, url, data, token) => {
   return axios({

@@ -38,6 +38,8 @@ const getCountOne = (req, res) => {
               });
           });
       });
+      global.io.emit('hihi',countData)
+
       return res.status(constants.CODE.GET_OK).json({ count: countData });
     })
     .catch((err) => {

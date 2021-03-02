@@ -37,28 +37,6 @@ class App extends React.Component {
     this.setState({
       message:this.state.message+m
     })
-    // const messages = this.state.messages;
-    // let ids = _map(messages, "id");
-    // let max = Math.max(...ids);
-    // messages.push({
-    //   id: max + 1,
-    //   userId: m.id,
-    //   message: m.data,
-    // });
-
-    // let objMessage = $(".messages");
-    // if (
-    //   objMessage[0].scrollHeight - objMessage[0].scrollTop ===
-    //   objMessage[0].clientHeight
-    // ) {
-    //   this.setState({ messages });
-    //   objMessage.animate({ scrollTop: objMessage.prop("scrollHeight") }, 300); //tạo hiệu ứng cuộn khi có tin nhắn mới
-    // } else {
-    //   this.setState({ messages });
-    //   if (m.id === this.state.user) {
-    //     objMessage.animate({ scrollTop: objMessage.prop("scrollHeight") }, 300);
-    //   }
-    // }
   }
   //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn
   sendnewMessage(m) {
@@ -70,8 +48,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {this.state.message}
-        {/* <Switch>
+        <Switch>
           <Layout style={{ minHeight: "100vh" }}>
             <CustomMenu />
             <Layout>
@@ -94,7 +71,7 @@ class App extends React.Component {
               <CustomFooter />
             </Layout>
           </Layout>
-        </Switch> */}
+        </Switch>
       </div>
     );
   }

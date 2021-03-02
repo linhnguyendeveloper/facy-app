@@ -18,11 +18,11 @@ const _Schema = new Schema({
 
 function validateCreate(data) {
     const schema = Joi.object({
-        id: Joi.string().required(),
-        class_id: Joi.string().required(),
-        attendance: Joi.array().required(),
-        year: Joi.string().required(),
-        semester: Joi.number().required(),
+        id: Joi.string(),
+        class_id: Joi.string(),
+        attendance: Joi.array(),
+        year: Joi.string(),
+        semester: Joi.number()  ,
         status: Joi.boolean(),
         deleted: Joi.boolean()
 
