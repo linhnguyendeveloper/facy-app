@@ -155,7 +155,7 @@ const checkUpdate = async (req, res) => {
       await update(req, res);
     } else await create(req, res);
 
-    Service.getCount({
+    await Service.getCount({
       room: data.room,
       created_at: {
         $gte: today.toDate(),
