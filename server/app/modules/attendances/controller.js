@@ -164,8 +164,29 @@ const checkUpdate = async (req, res) => {
       slot: slot,
       status: true,
     }).then((count) => {
-      global.io.emit("countCurrent", { email: req.user.email, count });
+      global.io.emit("countCurrent", { email: req.user.email, count, nameStudent:data.name, status:data.status });
+      
     });
+  });
+};
+
+
+const getCountCurrent = async (req, res) => {
+  let data = req.body;
+  let slot = getSlotByTime(new Date());
+
+  let room = await ControllerSubject.getRoomCurrent(req, res);
+  const today = moment().startOf("day");
+  await Service.getCount({
+    room: room,
+    created_at: {
+      $gte: today.toDate(),
+      $lte: moment(today).endOf("day").toDate(),
+    },
+    slot: slot,
+    status: true,
+  }).then((count) => {
+    return res.status(constants.CODE.GET_OK).json({  count, room, slot});
   });
 };
 
@@ -177,4 +198,5 @@ module.exports = {
   deleteOne,
   deleteMany,
   checkUpdate,
+  getCountCurrent
 };

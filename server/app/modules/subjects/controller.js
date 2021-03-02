@@ -28,6 +28,7 @@ const getOne = (req, res) => {
     });
 };
 
+
 const create = (req, res) => {
   let data = req.body;
   const err = validateCreate(data);
@@ -124,14 +125,12 @@ const getCurrent = async (req, res) => {
             week.data_in_week.forEach((date) => {
               if (date && date.date == moment().format("MM/DD/YYYY")) {
                 date.data_in_date.forEach((item) => {
-                  console.log(item);
                   if (item.slot === slot) id = item.subject_id;
                 });
               }
             });
         });
       });
-      console.log('idL ',id);
       let result = null;
       if (id) result = await Service.getOneWhere({ id });
       return res.status(200).json(result);
@@ -139,6 +138,35 @@ const getCurrent = async (req, res) => {
     .catch((err) => {
       return res.status(401).json(err);
     });
+};
+
+const getRoomCurrent = async (req, res) => {
+  let result = null;
+  await Service.getMany(
+    { teacher_id: req.user._id },
+    { class_id: true, _id: false }
+  ).then(async (data) => {
+    let dateTime = new Date();
+    let slot = getSlotByTime(dateTime);
+    data = data.map((item) => item.class_id);
+    let schedules = await ServiceSchedules.getMany({
+      class_id: { $in: data },
+      year: dateTime.getFullYear(),
+    });
+    await schedules.forEach((schedule) => {
+      schedule.attendance.forEach((week) => {
+        if (week)
+          week.data_in_week.forEach((date) => {
+            if (date && date.date == moment().format("MM/DD/YYYY")) {
+              date.data_in_date.forEach((item) => {
+                if (item.slot === slot) result = item.room;
+              });
+            }
+          });
+      });
+    });
+  });
+  return result;
 };
 
 const subjectCurrent = async (req, res) => {
@@ -164,13 +192,12 @@ const subjectCurrent = async (req, res) => {
             week.data_in_week.forEach((date) => {
               if (date && date.date == moment().format("MM/DD/YYYY")) {
                 date.data_in_date.forEach((item) => {
-                  if (item.slot === slot) id = item.subject_id;
+                  if (item.slot === slot) result = item.subject_id;
                 });
               }
             });
         });
       });
-      if (id) result = await Service.getOneWhere({ id });
       return result;
     })
     .catch((err) => {
@@ -188,4 +215,5 @@ module.exports = {
   deleteMany,
   getCurrent,
   subjectCurrent,
+  getRoomCurrent
 };

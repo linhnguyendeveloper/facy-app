@@ -5,10 +5,13 @@ const getMany = () => {
 };
 
 const getOne = (id) => {
-  return Class.findOne({ _id: id, deleted: { $ne: true } });
+  return Class.findOne({ id: id, deleted: { $ne: true } });
 };
 
 const getOneWhere = (where = {}) => {
+  console.log('====================================');
+  console.log('where : ',where);
+  console.log('====================================');
   return Class.findOne({ ...where, deleted: { $ne: true } });
 };
 const getByEmail = (email) => {
