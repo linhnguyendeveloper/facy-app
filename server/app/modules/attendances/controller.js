@@ -2,8 +2,11 @@ const mongoose = require("mongoose");
 const Service = require("./service");
 const constants = require("../../utils/constants");
 const { validateCreate, validateEdit } = require("../../models/attendances");
-const { required } = require("joi");
-const { Socket } = require("../../../config/socketio");
+const getSlotByTime = require("../../utils/getSlotByTime");
+const moment = require("moment");
+
+const ControllerSubject = require("../subjects/controller");
+const ServiceClass = require("../class/service");
 
 const getMany = (req, res) => {
   Service.getMany()
@@ -28,7 +31,7 @@ const getOne = (req, res) => {
 
 const create = (req, res) => {
   let data = req.body;
-
+  data.slot = getSlotByTime(new Date());
   const err = validateCreate(data);
   if (err && err.error) {
     let errors =
@@ -43,7 +46,6 @@ const create = (req, res) => {
   } else {
     Service.create(data)
       .then((data) => {
-        sendCountAttendance();
         return res.status(constants.CODE.CREATE_OK).json({
           message: "create successful",
         });
@@ -71,6 +73,7 @@ const createMany = (req, res) => {
 const update = (req, res) => {
   let id = req.params.id;
   let data = req.body;
+  data.slot = getSlotByTime(new Date());
   let err = validateEdit(data);
   if (err && err.error) {
     let errors =
@@ -121,18 +124,49 @@ const deleteMany = (req, res) => {
     });
 };
 
-const sendCountAttendance = () => {
-  // socket
-  Service.getCount()
-    .then((data) => {
-      console.log('====================================');
-      console.log('count : ',data);
-      console.log('====================================');
-    })
-    .catch((err) => {
-    //   return res.status(constants.CODE.BAD_REQUEST).json(err.message);
+const checkUpdate = async (req, res) => {
+  let data = req.body;
+  let slot = getSlotByTime(new Date());
+
+  let classCurrent = await ControllerSubject.subjectCurrent(req, res);
+  if (!classCurrent) return res.status(constants.CODE.GET_OK).json("null");
+  let studentInClass = await ServiceClass.getOneWhere({
+    id: classCurrent.class_id,
+  });
+  if (
+    !studentInClass ||
+    !(studentInClass && studentInClass.students_email.includes(data.email))
+  )
+    return res.status(constants.CODE.GET_OK).json("null");
+
+  const today = moment().startOf("day");
+
+  Service.getOneWhere({
+    email: data.email,
+    room: data.room,
+    created_at: {
+      $gte: today.toDate(),
+      $lte: moment(today).endOf("day").toDate(),
+    },
+    slot: slot,
+  }).then(async (attendance) => {
+    if (attendance) {
+      req.params.id = attendance._id;
+      await update(req, res);
+    } else await create(req, res);
+
+    Service.getCount({
+      room: data.room,
+      created_at: {
+        $gte: today.toDate(),
+        $lte: moment(today).endOf("day").toDate(),
+      },
+      slot: slot,
+      status: true,
+    }).then((count) => {
+      global.io.emit("countCurrent", { email: req.user.email, count });
     });
-  Socket.emit("id", "ahihihihihi");
+  });
 };
 
 module.exports = {
@@ -142,4 +176,5 @@ module.exports = {
   update,
   deleteOne,
   deleteMany,
+  checkUpdate,
 };

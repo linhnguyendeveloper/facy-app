@@ -7,6 +7,7 @@ const _Schema = new Schema(
     email: { type: String },
     room: { type: String },
     status: { type: Boolean, default: true },
+    slot: { type: Number },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
@@ -18,6 +19,7 @@ function validateCreate(data) {
     email: Joi.string().required(),
     room: Joi.string().required(),
     status: Joi.boolean(),
+    slot: Joi.number(),
   });
   return schema.validate(data);
 }
@@ -27,6 +29,7 @@ function validateEdit(data) {
     email: Joi.string().required(),
     room: Joi.string().required(),
     status: Joi.boolean(),
+    slot: Joi.number(),
   });
   return schema.validate(data);
 }

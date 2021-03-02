@@ -8,33 +8,11 @@ const app = express();
 const http = require("http").Server(app);
 const port = process.env.PORT || 3000;
 var cors = require("cors");
+const { required } = require("joi");
 require("./config/express")(app);
 app.use(cors());
 
-const io = require('socket.io')(http, {
-    cors: {
-      origin: '*',
-    }
-  });
-  global.io = io;
-  
-io.on('connection', function(socket){
-    console.log(socket.id + ': connected');
-    socket.emit('id', socket.id);
-  
-    socket.on('disconnect', function(){
-      console.log(socket.id + ': disconnected')
-    })
-    setInterval(()=>socket.emit('newMessage', 1),2000)
-    socket.on('newMessage', data => {
-      io.sockets.emit('newMessage', 1);
-      console.log(data);
-    })
-});
-
- 
-
-// require("./config/socketio")(io);
+require('./config/socketio')(http)
 
 
 require(config.PATH_MODELS)

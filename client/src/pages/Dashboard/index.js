@@ -18,7 +18,7 @@ class Dashboard extends React.Component {
     }); // lắng nghe event có tên 'id'
     this.socket.on("newMessage", (response) => {
     }); //lắng nghe event 'newMessage' và gọi hàm newMessage khi có event
-    this.socket.on("hihi", (response) => {
+    this.socket.on("countCurrent", (response) => {
       this.newMessage(response);
     });
   }

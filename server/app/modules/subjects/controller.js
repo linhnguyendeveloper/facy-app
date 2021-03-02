@@ -5,6 +5,7 @@ const constants = require("../../utils/constants");
 const { validateCreate, validateEdit } = require("../../models/subjects");
 const { required } = require("joi");
 const moment = require("moment");
+const getSlotByTime = require("../../utils/getSlotByTime");
 
 const getMany = (req, res) => {
   Service.getMany()
@@ -110,6 +111,43 @@ const getCurrent = async (req, res) => {
   Service.getMany({ teacher_id: req.user._id }, { class_id: true, _id: false })
     .then(async (data) => {
       let dateTime = new Date();
+      let slot = getSlotByTime(dateTime);
+      data = data.map((item) => item.class_id);
+      let schedules = await ServiceSchedules.getMany({
+        class_id: { $in: data },
+        year: dateTime.getFullYear(),
+      });
+      let id;
+      await schedules.forEach((schedule) => {
+        schedule.attendance.forEach((week) => {
+          if (week)
+            week.data_in_week.forEach((date) => {
+              if (date && date.date == moment().format("MM/DD/YYYY")) {
+                date.data_in_date.forEach((item) => {
+                  if (item.slot === slot) id = item.subject_id;
+                });
+              }
+            });
+        });
+      });
+      let result = null;
+      if (id) result = await Service.getOneWhere({ id });
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      return res.status(401).json(err);
+    });
+};
+
+const subjectCurrent = async (req, res) => {
+  let result = null;
+
+  await Service.getMany(
+    { teacher_id: req.user._id },
+    { class_id: true, _id: false }
+  )
+    .then(async (data) => {
+      let dateTime = new Date();
 
       let slot = getSlotByTime(dateTime);
       data = data.map((item) => item.class_id);
@@ -123,10 +161,6 @@ const getCurrent = async (req, res) => {
           if (week)
             week.data_in_week.forEach((date) => {
               if (date && date.date == moment().format("MM/DD/YYYY")) {
-                console.log("====================================");
-                console.log(date);
-                console.log(slot);
-                console.log("====================================");
                 date.data_in_date.forEach((item) => {
                   if (item.slot === slot) id = item.subject_id;
                 });
@@ -134,26 +168,13 @@ const getCurrent = async (req, res) => {
             });
         });
       });
-      let result = null;
-      if (id)
-        result = await Service.getOneWhere({id})
-      return res.status(200).json(result);
+      if (id) result = await Service.getOneWhere({ id });
+      return result;
     })
     .catch((err) => {
-      return res.status(401).json(err);
+      return null;
     });
-};
-
-const getSlotByTime = (dateTime) => {
-  let slot;
-  if (dateTime.getHours() < 8 && dateTime.getMinutes() < 40) slot = 1;
-  else if (dateTime.getHours() <= 10 && dateTime.getMinutes() <= 25) slot = 2;
-  else if (dateTime.getHours() <= 12 && dateTime.getMinutes() <= 10) slot = 3;
-  else if (dateTime.getHours() <= 14 && dateTime.getMinutes() <= 10) slot = 4;
-  else if (dateTime.getHours() <= 15 && dateTime.getMinutes() <= 55) slot = 5;
-  else slot = 6;
-
-  return slot;
+  return result;
 };
 
 module.exports = {
@@ -164,4 +185,5 @@ module.exports = {
   deleteOne,
   deleteMany,
   getCurrent,
+  subjectCurrent,
 };
