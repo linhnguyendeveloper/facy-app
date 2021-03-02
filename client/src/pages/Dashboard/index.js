@@ -19,9 +19,11 @@ class Dashboard extends React.Component {
     this.socket.on("newMessage", (response) => {
     }); //lắng nghe event 'newMessage' và gọi hàm newMessage khi có event
     this.socket.on("countCurrent", (response) => {
-      this.newMessage(response);
+      console.log(response,'non');
+      this.newMessage(response.count);
     });
   }
+  
   //Khi có tin nhắn mới, sẽ push tin nhắn vào state mesgages, và nó sẽ được render ra màn hình
   newMessage(m) {
     console.log(m);

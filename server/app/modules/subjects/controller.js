@@ -124,12 +124,14 @@ const getCurrent = async (req, res) => {
             week.data_in_week.forEach((date) => {
               if (date && date.date == moment().format("MM/DD/YYYY")) {
                 date.data_in_date.forEach((item) => {
+                  console.log(item);
                   if (item.slot === slot) id = item.subject_id;
                 });
               }
             });
         });
       });
+      console.log('idL ',id);
       let result = null;
       if (id) result = await Service.getOneWhere({ id });
       return res.status(200).json(result);
