@@ -4,7 +4,7 @@ const Joi = require("joi");
 
 const _Schema = new Schema(
   {
-    id: { type: String, unique: true, index: true },
+    id: { type: String},
     name: { type: String },
     class_id: { type: String },
     teacher_id: { type: String },
