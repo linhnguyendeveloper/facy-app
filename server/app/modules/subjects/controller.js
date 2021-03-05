@@ -173,16 +173,19 @@ const subjectCurrent = async (req, res) => {
   let result = null;
 
   await Service.getMany(
-    { teacher_id: req.user._id },
+    // { teacher_id: req.user._id },
+    {},
     { class_id: true, _id: false }
   )
     .then(async (data) => {
+      console.log('non');
+
       let dateTime = new Date();
 
       let slot = getSlotByTime(dateTime);
       data = data.map((item) => item.class_id);
       let schedules = await ServiceSchedules.getMany({
-        class_id: { $in: data },
+        // class_id: { $in: data },
         year: dateTime.getFullYear(),
       });
       let id;
@@ -192,7 +195,7 @@ const subjectCurrent = async (req, res) => {
             week.data_in_week.forEach((date) => {
               if (date && date.date == moment().format("MM/DD/YYYY")) {
                 date.data_in_date.forEach((item) => {
-                  if (item.slot === slot) result = item.subject_id;
+                  if (item.slot === slot) result = {...item};
                 });
               }
             });

@@ -108,7 +108,7 @@ const deleteMany = (req, res) => {
 const getCountStudent = async (req, res) => {
   let idSubjectCurrent = await ControllerSubject.subjectCurrent(req, res);
   if (idSubjectCurrent)
-    subjectCurrent = await ServiceSubject.getOneWhere({ id: idSubjectCurrent });
+    subjectCurrent = await ServiceSubject.getOneWhere({ id: idSubjectCurrent.subject_id });
   if (subjectCurrent)
     await Service.getOneWhere({ id: subjectCurrent.class_id }).then((data) => {
       return res

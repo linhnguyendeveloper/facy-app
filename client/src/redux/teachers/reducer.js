@@ -1,13 +1,18 @@
 import {
   GET_TEACHERS_SUCCESS,
   UPDATE_TEACHERS_SUCCESS,
-  POST_TEACHERS_SUCCESS,
+  GET_CURRENT_SUCCESS,
   DELETE_ONE_TEACHERS_SUCCESS,
-  DELETE_MANY_TEACHERS_SUCCESS
+  DELETE_MANY_TEACHERS_SUCCESS,
+  GET_COUNT_CURRENT,
+  GET_COUNT_STUDENT
 } from './actionTypes'
 
 const initState = {
-  teachers: []
+  teachers: [],
+  currentCourse:'',
+  countCurrent:0,
+  countStudent:0
 }
 
 export default function (state = initState, action) {
@@ -17,17 +22,22 @@ export default function (state = initState, action) {
         ...state,
         teachers: action.teachers
       }
-    case POST_TEACHERS_SUCCESS:
+    case GET_CURRENT_SUCCESS:
+      console.log(action.currentCourse);
       return {
-        ...state
+        ...state,
+        currentCourse: action.currentCourse
       }
-    case UPDATE_TEACHERS_SUCCESS:
+    case GET_COUNT_CURRENT:
       return {
-        ...state
+        ...state,
+        countCurrent:action.countCurrent
       }
-    case DELETE_ONE_TEACHERS_SUCCESS:
+    case GET_COUNT_STUDENT:
       return {
-        ...state
+        ...state,
+        countStudent:action.countStudent
+
       }
     case DELETE_MANY_TEACHERS_SUCCESS:
       return {

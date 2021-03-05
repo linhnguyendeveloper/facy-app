@@ -7,6 +7,8 @@ const moment = require("moment");
 
 const ControllerSubject = require("../subjects/controller");
 const ServiceClass = require("../class/service");
+const ServiceSubject = require("../subjects/service");
+const ServiceUser = require("../users/service");
 
 const getMany = (req, res) => {
   Service.getMany()
@@ -123,16 +125,23 @@ const deleteMany = (req, res) => {
       return res.status(constants.CODE.BAD_REQUEST).json(err.message);
     });
 };
-
+const findSubjectCurrent=()=>{
+  
+}
 const checkUpdate = async (req, res) => {
   let data = req.body;
   let slot = getSlotByTime(new Date());
-
-  let classCurrent = await ControllerSubject.subjectCurrent(req, res);
+  let classCurrent = 
+  //  { slot: getSlotByTime(new Date()), subject_id: 'PRJ201', room: 'a1234', class_id: 'SE1301' }
+   await ControllerSubject.subjectCurrent(req, res);
+   const classNow = await ServiceSubject.getOneWhere({
+     id:classCurrent.subject_id
+   })
   if (!classCurrent) return res.status(constants.CODE.GET_OK).json("null");
   let studentInClass = await ServiceClass.getOneWhere({
-    id: classCurrent.class_id,
+    id: classNow.class_id,
   });
+  let teacher = await ServiceUser.getOne(classNow.teacher_id)
   if (
     !studentInClass ||
     !(studentInClass && studentInClass.students_email.includes(data.email))
@@ -140,7 +149,6 @@ const checkUpdate = async (req, res) => {
     return res.status(constants.CODE.GET_OK).json("null");
 
   const today = moment().startOf("day");
-
   Service.getOneWhere({
     email: data.email,
     room: data.room,
@@ -150,26 +158,31 @@ const checkUpdate = async (req, res) => {
     },
     slot: slot,
   }).then(async (attendance) => {
+    let count = 0;
     if (attendance) {
       req.params.id = attendance._id;
       await update(req, res);
     } else await create(req, res);
-
-    await Service.getCount({
-      room: data.room,
-      created_at: {
-        $gte: today.toDate(),
-        $lte: moment(today).endOf("day").toDate(),
-      },
-      slot: slot,
-      status: true,
-    }).then((count) => {
-      global.io.emit("countCurrent", { email: req.user.email, count, nameStudent:data.name, status:data.status });
-      
-    });
+    setTimeout(async () => {
+      await Service.getCount({
+        room: data.room,
+        created_at: {
+          $gte: today.toDate(),
+          $lte: moment(today).endOf("day").toDate(),
+        },
+        slot: slot,
+        status: true,
+      }).then((count) => {
+        global.io.emit("countCurrent", {
+          email: teacher.email,
+          //  req.user.email,
+          count,
+          student: req.body,
+        });
+      });
+    }, 1000);
   });
 };
-
 
 const getCountCurrent = async (req, res) => {
   let data = req.body;
@@ -186,7 +199,7 @@ const getCountCurrent = async (req, res) => {
     slot: slot,
     status: true,
   }).then((count) => {
-    return res.status(constants.CODE.GET_OK).json({  count, room, slot});
+    return res.status(constants.CODE.GET_OK).json({ count, room, slot });
   });
 };
 
@@ -198,5 +211,5 @@ module.exports = {
   deleteOne,
   deleteMany,
   checkUpdate,
-  getCountCurrent
+  getCountCurrent,
 };

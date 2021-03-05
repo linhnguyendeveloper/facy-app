@@ -5,44 +5,50 @@ import io from "socket.io-client";
 import Cards from "./components/Cards";
 import Chart from "./components/Chart";
 import { notification } from "antd";
+import { FormProvider } from "antd/lib/form/context";
+import { getCurrentCourse,getCountCurrent,getCountStudent } from "../../redux/teachers/actions";
 class Dashboard extends React.Component {
   state = {
     message: 0,
+    currentCourse:{
+    },
+    countStudent:0
   };
   componentWillMount() {
     this.socket = io("localhost:3001");
     this.socket.on("id", (res) => {
-      console.log("====================================");
-      console.log(res);
-      console.log("====================================");
     }); // lắng nghe event có tên 'id'
-    this.socket.on("newMessage", (response) => {
-    }); //lắng nghe event 'newMessage' và gọi hàm newMessage khi có event
+    this.socket.on("newMessage", (response) => {}); //lắng nghe event 'newMessage' và gọi hàm newMessage khi có event
     this.socket.on("countCurrent", (response) => {
-      console.log(response,'non');
       this.newMessage(response.count);
+      this.getNotification(response.student)
     });
   }
-  
-  //Khi có tin nhắn mới, sẽ push tin nhắn vào state mesgages, và nó sẽ được render ra màn hình
-  newMessage(m) {
-    console.log(m);
-    if(m!==this.state.message) this.getNotification(m);
-    this.setState({
-      message: m
-    });
+  componentDidMount() {
+    this.props.getCurrentCourse();
+    this.props.getCountCurrent();
+    this.props.getCountStudent()
   }
-  //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn
-  sendnewMessage(m) {
-    if (m.value) {
-      this.socket.emit("newMessage", m.value); //gửi event về server
-      m.value = "";
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.countCurrent !== this.props.countCurrent) {
+      this.setState({ message: nextProps.countCurrent });
+    }
+    if (nextProps.countStudent !== this.props.countStudent) {
+      this.setState({ countStudent: nextProps.countStudent });
     }
   }
-  getNotification = (placement) => {
-    notification.info({
+  newMessage(m) {
+    this.setState({
+      message: m,
+    });
+  }
+
+  getNotification = (student) => {
+     notification.info({
       message: `PMG201`,
-      description: "Linh just present",
+      description:
+        student.email + (student.status == true ? " just present" : " just absent"),
       placement: "topRight",
     });
   };
@@ -54,18 +60,27 @@ class Dashboard extends React.Component {
           <p className="gray-text"> Monday April 24 2021 | Da Nang</p>
         </div>
 
-        <Cards message={this.state.message} />
+        <Cards
+          message={this.state.message}
+          countStudent={this.state.countStudent}
+          currentCourse={this.props.currentCourse}
+        />
         <Chart />
-        {/* <DonutWithText/> */}
       </div>
     );
   }
 }
 const mapState = (state) => ({
-  // attendances: state.attendances.attendances,
+  currentCourse: state.teachers.currentCourse,
+  countCurrent:state.teachers.countCurrent,
+  countStudent:state.teachers.countStudent,
 });
 
 const mapDispatch = (dispatch) => ({
-  // getAttendances: (token) => dispatch(getAttendances(token)),
+  getCurrentCourse: () => dispatch(getCurrentCourse()),
+  getCountCurrent: () => dispatch(getCountCurrent()),
+  getCountStudent: () => dispatch(getCountStudent()),
+
+  
 });
 export default connect(mapState, mapDispatch)(Dashboard);

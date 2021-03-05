@@ -21,7 +21,7 @@ const Cards = (props) => {
         >
           <div>
             <p>Students</p>
-            <span style={{ color: "#417d8d", fontSize: 35 }}>30</span>
+            <span style={{ color: "#417d8d", fontSize: 35 }}>{props.countStudent}</span>
           </div>
         </Card>
       </Col>
@@ -38,7 +38,7 @@ const Cards = (props) => {
         >
           <div>
             <p>Absent</p>
-            <span style={{ color: "red", fontSize: 35 }}>{props.message}</span>
+            <span style={{ color: "red", fontSize: 35 }}>{props.countStudent-props.message}</span>
           </div>
         </Card>
       </Col>
@@ -56,7 +56,7 @@ const Cards = (props) => {
         >
           <div>
             <p>Present</p>
-            <span style={{ color: "#0092ff", fontSize: 35 }}>25</span>
+            <span style={{ color: "#0092ff", fontSize: 35 }}>{props.message}    </span>
           </div>
         </Card>
       </Col>
@@ -73,7 +73,7 @@ const Cards = (props) => {
         >
           <div>
             <p>Current Course</p>
-            <span style={{ color: "gray", fontSize: 35 }}>PMG201</span>
+            <span style={{ color: "gray", fontSize: 35 }}>{props.currentCourse}</span>
           </div>
         </Card>
       </Col>

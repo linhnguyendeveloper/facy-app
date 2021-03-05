@@ -9,9 +9,6 @@ const getOne = (id) => {
 };
 
 const getOneWhere = (where = {}) => {
-  console.log('====================================');
-  console.log('where : ',where);
-  console.log('====================================');
   return Class.findOne({ ...where, deleted: { $ne: true } });
 };
 const getByEmail = (email) => {

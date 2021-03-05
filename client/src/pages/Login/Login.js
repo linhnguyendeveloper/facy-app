@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { login } from "../../redux/auth";
 import { connect } from "react-redux";
 
-function Login({ login ,isAuthen,history}) {
+function Login({ login, isAuthen, history }) {
   const { Header, Footer, Content } = Layout;
   const [input, setInput] = useState({
     password: "",
@@ -19,10 +19,9 @@ function Login({ login ,isAuthen,history}) {
   const onSubmit = () => {
     login(input);
   };
-  useEffect(()=>{
-    if(isAuthen)       history.push('/dashboard')
-
-  },[isAuthen])
+  useEffect(() => {
+    if (isAuthen) history.push("/dashboard");
+  }, [isAuthen]);
   return (
     <div className="Login">
       <Layout style={{ minHeight: "100vh" }}>
@@ -92,7 +91,7 @@ function Login({ login ,isAuthen,history}) {
 }
 
 const mapState = (state) => ({
-  isAuthen:state.auth.isAuthen
+  isAuthen: state.auth.isAuthen,
 });
 
 const mapDispatch = (dispatch) => ({
