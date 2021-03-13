@@ -13,6 +13,7 @@
     "canvasjs": "^1.8.3",
     "chart.js": "^2.9.4",
     "chartjs": "^0.3.24",
+    "exceljs": "^4.2.1",
     "firebase": "^8.2.2",
     "firebase-admin": "^9.4.2",
     "node-sass": "^4.0.0",

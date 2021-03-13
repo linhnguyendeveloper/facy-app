@@ -9,9 +9,11 @@ const ControllerSubject = require("../subjects/controller");
 const ServiceClass = require("../class/service");
 const ServiceSubject = require("../subjects/service");
 const ServiceUser = require("../users/service");
+var nodemailer = require("nodemailer");
+const { equal } = require("joi");
 
 const getMany = (req, res) => {
-  Service.getMany()
+  Service.getManyWhere()
     .then((data) => {
       return res.status(200).json(data);
     })
@@ -19,7 +21,15 @@ const getMany = (req, res) => {
       return res.status(401).json(err);
     });
 };
-
+const getForUser = (req, res) => {
+  Service.getManyWhere({email:req.query.email})
+    .then((data) => {
+      return res.status(200).json(data);
+    })
+    .catch((err) => {
+      return res.status(401).json(err);
+    });
+};
 const getOne = (req, res) => {
   let id = req.params.id;
   Service.getOne(id)
@@ -31,9 +41,12 @@ const getOne = (req, res) => {
     });
 };
 
-const create = (req, res) => {
+const create = (req, res,classID,subject) => {
   let data = req.body;
   data.slot = getSlotByTime(new Date());
+  data.class = classID
+  data.subject = subject
+
   const err = validateCreate(data);
   if (err && err.error) {
     let errors =
@@ -60,6 +73,7 @@ const create = (req, res) => {
 
 const createMany = (req, res) => {
   let data = req.body;
+  
   data = data.filter((item) => !validateCreate(item));
   Service.createMany(data)
     .then((data) => {
@@ -72,9 +86,12 @@ const createMany = (req, res) => {
     });
 };
 
-const update = (req, res) => {
+const update = (req, res,classID,subject) => {
   let id = req.params.id;
   let data = req.body;
+  data.class = classID
+  data.subject = subject
+
   data.slot = getSlotByTime(new Date());
   let err = validateEdit(data);
   if (err && err.error) {
@@ -125,23 +142,21 @@ const deleteMany = (req, res) => {
       return res.status(constants.CODE.BAD_REQUEST).json(err.message);
     });
 };
-const findSubjectCurrent=()=>{
-  
-}
+const findSubjectCurrent = () => {};
 const checkUpdate = async (req, res) => {
+
   let data = req.body;
   let slot = getSlotByTime(new Date());
-  let classCurrent = 
-  //  { slot: getSlotByTime(new Date()), subject_id: 'PRJ201', room: 'a1234', class_id: 'SE1301' }
-   await ControllerSubject.subjectCurrent(req, res);
-   const classNow = await ServiceSubject.getOneWhere({
-     id:classCurrent.subject_id
-   })
+  let classCurrent = await ControllerSubject.subjectCurrent(req, res);
+  console.log(classCurrent);
+  const classNow = await ServiceSubject.getOneWhere({
+    id: classCurrent.subject_id,
+  });
   if (!classCurrent) return res.status(constants.CODE.GET_OK).json("null");
   let studentInClass = await ServiceClass.getOneWhere({
     id: classNow.class_id,
   });
-  let teacher = await ServiceUser.getOne(classNow.teacher_id)
+  let teacher = await ServiceUser.getOne(classNow.teacher_id);
   if (
     !studentInClass ||
     !(studentInClass && studentInClass.students_email.includes(data.email))
@@ -149,6 +164,30 @@ const checkUpdate = async (req, res) => {
     return res.status(constants.CODE.GET_OK).json("null");
 
   const today = moment().startOf("day");
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "aintnolinh@gmail.com",
+      pass: "pjtdshzafamgmctl",
+    },
+  });
+  var mailOptions = {
+    from: "aintnolinh@gmail.com",
+    to: req.body.email,
+    subject: "Attendances notification from FPT University",
+    text: `
+    You are absent today,
+    Course : ${classCurrent.subject_id}
+    At slot ${slot}`,
+  };
+  if(!req.body.status)
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
   Service.getOneWhere({
     email: data.email,
     room: data.room,
@@ -161,8 +200,8 @@ const checkUpdate = async (req, res) => {
     let count = 0;
     if (attendance) {
       req.params.id = attendance._id;
-      await update(req, res);
-    } else await create(req, res);
+      await update(req, res,classCurrent.subject_id);
+    } else await create(req, res,classCurrent.subject_id);
     setTimeout(async () => {
       await Service.getCount({
         room: data.room,
@@ -212,4 +251,5 @@ module.exports = {
   deleteMany,
   checkUpdate,
   getCountCurrent,
+  getForUser
 };

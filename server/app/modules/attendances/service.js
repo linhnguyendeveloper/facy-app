@@ -14,7 +14,9 @@ const getCount = (where = {}) => {
 const getOneWhere = (where = {}) => {
   return Attendance.findOne({ ...where, deleted: { $ne: true } });
 };
-
+const getManyWhere = (where = {}) => {
+  return Attendance.find({ ...where, deleted: { $ne: true } });
+};
 const getByEmail = (email) => {
   return Attendance.find({ email: email });
 };
@@ -50,4 +52,5 @@ module.exports = {
   createMany,
   getCount,
   getOneWhere,
+  getManyWhere
 };

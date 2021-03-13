@@ -1,11 +1,12 @@
 import {
-  GET_ATTENDANCES_SUCCESS
+  GET_ATTENDANCES_SUCCESS,
   // POST_ATTENDANCES_SUCCESS,
   // POST_MANY_ATTENDANCES_SUCCESS,
   // UPDATE_ATTENDANCES_SUCCESS,
   // UPDATE_MANY_ATTENDANCES_SUCCESS,
   // DELETE_MANY_ATTENDANCES_SUCCESS,
-  // DELETE_ONE_ATTENDANCES_SUCCESS
+  // DELETE_ONE_ATTENDANCES_SUCCESS,,
+  GET_USER_ATTENDANCES_SUCCESS
 } from './actionTypes'
 // import 
 // getAttendancesApi,
@@ -19,6 +20,7 @@ import {
 import data from '../../mockData'
 import dataJson from '../../SSC102.json'
 import dataJson2 from '../../ITE302b.json'
+import {getUserAttendancesApi}from '../../services/api/attendances'
 
 function get_all_attendances(attendances) {
   return {
@@ -36,4 +38,20 @@ export const getAttendances = token => {
     //     .catch(err => {})
     // }
   }
+}
+function get_user_attendances(attendances) {
+  return {
+    type: GET_USER_ATTENDANCES_SUCCESS,
+    user_attendances: attendances
+  }
+}
+export const getUserAttendances = email => {
+  return dispatch => {
+    getUserAttendancesApi(email)
+        .then(res => {
+          dispatch(get_user_attendances(res?.data))
+        })
+        .catch(err => {})
+    }
+  
 }

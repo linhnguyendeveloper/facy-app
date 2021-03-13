@@ -3,11 +3,13 @@ import {
   UPDATE_ATTENDANCES_SUCCESS,
   POST_ATTENDANCES_SUCCESS,
   DELETE_ONE_ATTENDANCES_SUCCESS,
-  DELETE_MANY_ATTENDANCES_SUCCESS
+  DELETE_MANY_ATTENDANCES_SUCCESS,
+  GET_USER_ATTENDANCES_SUCCESS
 } from './actionTypes'
 
 const initState = {
-  attendances: []
+  attendances: [],
+  user_attendances:[]
 }
 
 export default function (state = initState, action) {
@@ -17,9 +19,10 @@ export default function (state = initState, action) {
         ...state,
         attendances: action.attendances
       }
-    case POST_ATTENDANCES_SUCCESS:
+    case GET_USER_ATTENDANCES_SUCCESS:
       return {
-        ...state
+        ...state,
+        user_attendances:action.user_attendances
       }
     case UPDATE_ATTENDANCES_SUCCESS:
       return {

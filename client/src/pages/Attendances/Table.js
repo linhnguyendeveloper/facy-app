@@ -4,18 +4,27 @@ import { Select, Table } from "antd";
 import Add from "./components/Add";
 import ModalAddEdit from "./components/ModalAddEdit";
 import ModalUsers from "./components/ModalUsers";
+import ExportExcel from "./components/ExportExcel";
 const { Option } = Select;
-const TableManagement = ({ attendances }) => {
+const TableManagement = ({
+  attendances,
+  getUserAttendances,
+  user_attendances,
+}) => {
   const [visibleModal, setVisibleModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [visibleModalUsers, setVisibleModalUsers] = useState(false);
   const [idClicked, setIdClicked] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const [course, setCourse] = useState("");
   useEffect(() => {
     attendances && attendances.length > 0 && setCourse(attendances[0].courseID);
   }, [attendances]);
-  const courseAttendances = attendances.find(item=>item.courseID==course)
+  useEffect(() => {
+    getUserAttendances(user.email);
+  }, []);
+  const courseAttendances = attendances.find((item) => item.courseID == course);
   const columns = getColumns(
     setVisibleModal,
     setIsEdit,
@@ -29,7 +38,7 @@ const TableManagement = ({ attendances }) => {
     <>
       {/* <Add setVisibleModal={setVisibleModal} setIsEdit={setIsEdit} /> */}
       <Select
-      style={{marginBottom:20}}
+        style={{ marginBottom: 20 }}
         value={course}
         onChange={(value) => {
           setCourse(value);
@@ -39,6 +48,24 @@ const TableManagement = ({ attendances }) => {
           return <Option value={item.courseID}>{item.courseID}</Option>;
         })}
       </Select>
+      <ExportExcel
+        columns={[
+          { key: "class", title: "Course" },
+          { key: "slot", title: "Slot" },
+          { key: "date", title: "Date" },
+          { key: "present", title: "Status" },
+        ]}
+        data={user_attendances.map((item) => {
+          return {
+            class: item.class,
+            slot: item.slot,
+            date: item.updated_at.substring(0, 10),
+            present: item.status ? "Present" : "Absent",
+            email: item.email,
+          };
+        })}
+        fileName={user.full_name + " Attendances Report "}
+      />
       <ModalAddEdit
         visibleModal={visibleModal}
         setVisibleModal={setVisibleModal}

@@ -8,6 +8,8 @@ const _Schema = new Schema(
     room: { type: String },
     status: { type: Boolean, default: true },
     slot: { type: Number },
+    class: {type:String},
+    subject:{type:String}
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
@@ -20,6 +22,8 @@ function validateCreate(data) {
     room: Joi.string().required(),
     status: Joi.boolean(),
     slot: Joi.number(),
+    class:Joi.string(),
+    subject:Joi.string(),
   });
   return schema.validate(data);
 }
@@ -30,6 +34,8 @@ function validateEdit(data) {
     room: Joi.string().required(),
     status: Joi.boolean(),
     slot: Joi.number(),
+    class:Joi.string(),
+    subject:Joi.string(),
   });
   return schema.validate(data);
 }

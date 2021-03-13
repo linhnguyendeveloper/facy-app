@@ -15,7 +15,10 @@ const login = async (body, res) => {
         return res.status(constants.CODE.BAD_REQUEST).send({ 'errors': "wrong email or password" });
     }
 
-    return jwtToken({ _id: user._id, password });
+    return {
+        user:user,
+        token:jwtToken({ _id: user._id, password })
+    };
 
 }
 

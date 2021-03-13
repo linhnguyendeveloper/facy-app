@@ -22,6 +22,7 @@ export const login = (data) => {
     loginApi(data).then((res)=>{
       dispatch(set_login(res.data))
       localStorage.setItem('token',res?.data?.token)
+      localStorage.setItem('user',JSON.stringify(res?.data?.user))
 
     })
     .catch((data)=>{
