@@ -5,14 +5,16 @@ import {
   DELETE_ONE_TEACHERS_SUCCESS,
   DELETE_MANY_TEACHERS_SUCCESS,
   GET_COUNT_CURRENT,
-  GET_COUNT_STUDENT
+  GET_COUNT_STUDENT,
+  GET_SCHEDULES
 } from './actionTypes'
 
 const initState = {
   teachers: [],
   currentCourse:'',
   countCurrent:0,
-  countStudent:0
+  countStudent:0,
+  schedules:[]
 }
 
 export default function (state = initState, action) {
@@ -39,9 +41,10 @@ export default function (state = initState, action) {
         countStudent:action.countStudent
 
       }
-    case DELETE_MANY_TEACHERS_SUCCESS:
+    case GET_SCHEDULES:
       return {
-        ...state
+        ...state,
+        schedules:action.schedules
       }
     default:
       return {

@@ -2,7 +2,8 @@ import {
   GET_TEACHERS_SUCCESS,
   GET_CURRENT_SUCCESS,
   GET_COUNT_CURRENT,
-  GET_COUNT_STUDENT
+  GET_COUNT_STUDENT,
+  GET_SCHEDULES
   // POST_TEACHERS_SUCCESS,
   // POST_MANY_TEACHERS_SUCCESS,
   // UPDATE_TEACHERS_SUCCESS,
@@ -25,6 +26,9 @@ import {
   getCountCurrentApi,
   getCountStudentApi,
 } from "./../../services/api/courses";
+import {
+  getSchedulesApi
+}from "./../../services/api/attendances";
 function get_all_teachers(teachers) {
   return {
     type: GET_TEACHERS_SUCCESS,
@@ -52,7 +56,7 @@ export const getCurrentCourse = (token) => {
   return (dispatch) => {
     getCurrentCourseApi()
       .then((res) => {
-        dispatch(get_current(res?.data.name));
+        dispatch(get_current(res?.data.id));
       })
       .catch((err) => {});
   };
@@ -83,6 +87,21 @@ export const getCountStudent = (token) => {
     getCountStudentApi()
       .then((res) => {
         dispatch(get_student_count(res?.data.count));
+      })
+      .catch((err) => {});
+  };
+};
+function get_schedules(current) {
+  return {
+    type: GET_SCHEDULES,
+    schedules: current,
+  };
+}
+export const getSchedules = (token) => {
+  return (dispatch) => {
+    getSchedulesApi()
+      .then((res) => {
+        dispatch(get_schedules(res?.data));
       })
       .catch((err) => {});
   };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { getTeachers } from '../../redux/teachers/actions'
+import { getTeachers,getSchedules } from '../../redux/teachers/actions'
 import { getAttendances } from '../../redux/attendances/actions'
 import {Layout, Breadcrumb } from 'antd'
 
@@ -11,10 +11,11 @@ import CustomMenu from '../../components/CustomeMenu'
 import CustomHeader from '../../components/CustomHeader'
 import CustomFooter from '../../components/CustomFooter'
 const { Content } = Layout
-const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
+const Teachers = ({ teachers, getTeachers, attendances, getAttendances,getSchedules,schedules }) => {
   useEffect(() => {
     getTeachers('token')
     getAttendances('token')
+    getSchedules()
   }, [getTeachers, getAttendances])
   const [modalScheduleDetailOpen, setModalScheduleDetailOpen] = useState(false)
   const [selectedScheduleDay, setSelectedScheduleDay] = useState([])
@@ -26,7 +27,6 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
     setSelectedScheduleDay([])
     setModalScheduleDetailOpen(false)
   }
-
   return (
     <div>
    
@@ -39,6 +39,7 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
       <TeacherSchedule
         attendances={attendances}
         handleSelectSchedule={handleSelectSchedule}
+        schedules={schedules}
       />
       <ModalScheduleDetail
         modalScheduleDetailOpen={modalScheduleDetailOpen}
@@ -50,11 +51,15 @@ const Teachers = ({ teachers, getTeachers, attendances, getAttendances }) => {
 }
 const mapState = state => ({
   teachers: state.teachers.teachers,
-  attendances: state.attendances.attendances
+  attendances: state.attendances.attendances,
+  schedules: state.teachers.schedules,
+
 })
 
 const mapDispatch = dispatch => ({
   getTeachers: token => dispatch(getTeachers(token)),
-  getAttendances: token => dispatch(getAttendances(token))
+  getAttendances: token => dispatch(getAttendances(token)),
+  getSchedules: token => dispatch(getSchedules(token))
+
 })
 export default connect(mapState, mapDispatch)(Teachers)

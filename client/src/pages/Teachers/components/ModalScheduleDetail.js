@@ -24,7 +24,7 @@ const ModalScheduleDetail = ({
             <div>Room : {item?.room}</div>
             <div>Course : {item?.courseID}</div>
             <div>Class : {item?.className}</div>
-            <div>Lesson Count : {item?.lessonCount}</div>
+            {/* <div>Lesson Count : {item?.lessonCount}</div> */}
           </TabPane>
         ))}
       </Tabs>

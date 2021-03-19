@@ -3,59 +3,50 @@ import { Calendar, Badge, Tag } from "antd";
 import "../style.scss";
 import { EyeOutlined } from "@ant-design/icons";
 
-const TeacherSchedule = ({ attendances, handleSelectSchedule }) => {
-  let schedules = []
-  attendances.forEach(item=>{
-    schedules = [...schedules,...item.schedule.map(lesson=>{
-      return {
-        className: item.className,
-        courseID: item.courseID,
-        courseName: item.courseName,
-        lectureID:item.lectureID,
-        lectureName:item.lectureName,
-        lessonCount:lesson.lessonCount,
-        date:lesson.date,
-        room:lesson.room,
-        slot:lesson.slot,
-        studentCount:lesson.studentCount,
-      }
-    })]
-  })
-;
-// console.log(schedules,attendances);
-  const currentTeacher =  "TrangNTD11@fpt.edu.vn"
+const TeacherSchedule = ({ attendances, handleSelectSchedule, schedules }) => {
+  const currentTeacher = "TrangNTD11@fpt.edu.vn";
   const getListData = (value) => {
-    const dateData = schedules.filter(
-      (item) =>
-        item.date === value.format("MM/DD/YYYY")
-        //  && item.lectureID ===currentTeacher,
+    const listSchedules = [];
+    schedules && schedules.forEach((item) => {
+          item.data_in_date.forEach((it) => {
+            listSchedules.push({ ...it, date: item.date ,class:item.class});
+          });
+        })
+    const dateData = listSchedules.filter(
+      (item) => item.date === value.format("MM/DD/YYYY")
     );
     let listData;
-
+      console.log(schedules);
     listData = dateData
       ? dateData.map((item) => {
           return {
             type: "success",
-            className: item.className,
-            courseID: item.courseID,
+            className: item.class,
+            courseID: item.subject_id,
             room: item.room,
             lessonCount: item.lessonCount,
             slot: item.slot,
           };
         })
       : [];
-      return listData;
+
+    return listData;
   };
   const dateCellRender = (value) => {
     const listData = getListData(value);
-      if(listData.length>0)
-      return <div className="date-cell">
-        <Tag
-          color="processing"
-          onClick={() => handleSelectSchedule(listData)}
-          icon={<EyeOutlined />}
-        > View </Tag>
-      </div>
+    if (listData.length > 0)
+      return (
+        <div className="date-cell">
+          <Tag
+            color="processing"
+            onClick={() => handleSelectSchedule(listData)}
+            icon={<EyeOutlined />}
+          >
+            {" "}
+            View{" "}
+          </Tag>
+        </div>
+      );
   };
   const monthCellRender = (value) => {
     const num = getMonthData(value);

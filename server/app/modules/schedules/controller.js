@@ -6,7 +6,16 @@ const { validateCreate, validateEdit } = require("../../models/schedules");
 const getMany = (req, res) => {
   Service.getMany()
     .then((data) => {
-      return res.status(200).json(data);
+      let arr2 = []
+      data.filter(item=>item).map(item=>{
+          return item.attendance.map(it=>{
+            arr2 = arr2.concat(it.data_in_week.map(day=>{
+              return {...day,class:item.class_id}
+            }))
+          })
+        })
+
+      return res.status(200).json(arr2);
     })
     .catch((err) => {
       return res.status(401).json(err);
@@ -17,7 +26,11 @@ const getOne = (req, res) => {
   let id = req.params.id;
   Service.getOne(id)
     .then((data) => {
-      return res.status(constants.CODE.GET_OK).json(data);
+      let arr2 = [];
+      data.attendance.forEach((item) => {
+        arr2 = arr2.concat(item.data_in_week);
+      });
+      return res.status(constants.CODE.GET_OK).json(arr2);
     })
     .catch((err) => {
       return res.status(constants.CODE.BAD_REQUEST).json(err.message);
@@ -74,6 +87,7 @@ const create = (req, res) => {
 const update = (req, res) => {
   let id = req.params.id;
   let data = req.body;
+  console.log(data, "ga");
   let err = validateEdit(data);
   if (err && err.error) {
     let errors =

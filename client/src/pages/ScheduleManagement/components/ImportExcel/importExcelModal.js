@@ -28,7 +28,6 @@ export const importExcel = (
       blankRows: false,
       defval: "",
     });
-    console.log(jsonData,'???');
     const keyMapping = jsonData.splice(0, 1)[0].map((keyName) => {
       for (const [key, value] of Object.entries(mappingFieldNames)) {
         if (value.trim() === keyName.trim()) return key;

@@ -32,9 +32,9 @@ function validateCreate(data) {
 
 function validateEdit(data) {
     const schema = Joi.object({
-        id: Joi.string().require(),
-        class_id: Joi.string().require(),
-        attendance: Joi.array().require(),
+        id: Joi.string(),
+        class_id: Joi.string().required(),
+        attendance: Joi.array().required(),
         year: Joi.string().required(),
         semester: Joi.number().required(),
         status: Joi.boolean(),

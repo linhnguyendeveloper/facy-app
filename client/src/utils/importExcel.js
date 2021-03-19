@@ -59,7 +59,6 @@ export const importExcel = (
         ...item,
       };
     });
-    console.log(dataPosts,'hehe');
     // await postMany(dataPosts, token);
     // setData([...data, ...arrWithKey]);
     // get(token);
