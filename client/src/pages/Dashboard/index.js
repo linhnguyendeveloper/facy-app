@@ -8,12 +8,16 @@ import { notification } from "antd";
 import { FormProvider } from "antd/lib/form/context";
 import { getCurrentCourse,getCountCurrent,getCountStudent } from "../../redux/teachers/actions";
 class Dashboard extends React.Component {
-  state = {
-    message: 0,
-    currentCourse:{
-    },
-    countStudent:0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: 0,
+      currentCourse:{
+      },
+      countStudent:0
+    };
+  }
+ 
   componentWillMount() {
     this.socket = io("localhost:3001");
     this.socket.on("id", (res) => {
@@ -23,6 +27,7 @@ class Dashboard extends React.Component {
       this.newMessage(response.count);
       this.getNotification(response.student)
     });
+    
   }
   componentDidMount() {
     this.props.getCurrentCourse();
@@ -31,12 +36,12 @@ class Dashboard extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
-    if (nextProps.countCurrent !== this.props.countCurrent) {
-      this.setState({ message: nextProps.countCurrent });
-    }
-    if (nextProps.countStudent !== this.props.countStudent) {
+    // if (this.state.message ==0 || nextProps.countCurrent !== this.props.countCurrent) {
+      this.setState({ message: nextProps.countCurrent })
+    // }
+    // if (this.state.countStudent ==0 || nextProps.countStudent !== this.props.countStudent) {
       this.setState({ countStudent: nextProps.countStudent });
-    }
+    // }
   }
   newMessage(m) {
     this.setState({
@@ -53,10 +58,11 @@ class Dashboard extends React.Component {
     });
   };
   render() {
+    console.log(this.state);
     return (
       <div>
         <div className="dashboard-header">
-          <h2>Good morning, Linh.</h2>
+          <h2>Good morning, .</h2>
           <p className="gray-text"> Monday April 24 2021 | Da Nang</p>
         </div>
 

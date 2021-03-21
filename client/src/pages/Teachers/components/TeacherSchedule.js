@@ -4,7 +4,9 @@ import "../style.scss";
 import { EyeOutlined } from "@ant-design/icons";
 
 const TeacherSchedule = ({ attendances, handleSelectSchedule, schedules }) => {
-  const currentTeacher = "TrangNTD11@fpt.edu.vn";
+  const currentTeacher =  localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user"))
+  : null;
   const getListData = (value) => {
     const listSchedules = [];
     schedules && schedules.forEach((item) => {

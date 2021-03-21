@@ -10,33 +10,34 @@ const TableManagement = ({
   attendances,
   getUserAttendances,
   user_attendances,
+  getAttendanceClass,
+  class_attendances,
 }) => {
   const [visibleModal, setVisibleModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [visibleModalUsers, setVisibleModalUsers] = useState(false);
   const [idClicked, setIdClicked] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
-
   const [course, setCourse] = useState("");
+  const listClass = [...new Set(class_attendances.map((item) => item.subject))];
   useEffect(() => {
-    attendances && attendances.length > 0 && setCourse(attendances[0].courseID);
-  }, [attendances]);
+    setCourse(listClass[0])
+  }, [class_attendances]);
   useEffect(() => {
     getUserAttendances(user.email);
+    getAttendanceClass("SE1301");
   }, []);
-  const courseAttendances = attendances.find((item) => item.courseID == course);
   const columns = getColumns(
     setVisibleModal,
     setIsEdit,
     setVisibleModalUsers,
     setIdClicked,
-    courseAttendances?.className,
-    courseAttendances?.courseID,
-    courseAttendances?.lectureID,
+    'class',
+    'subject',
+    user.full_name,
   );
   return (
     <>
-      {/* <Add setVisibleModal={setVisibleModal} setIsEdit={setIsEdit} /> */}
       <Select
         style={{ marginBottom: 20 }}
         value={course}
@@ -44,18 +45,19 @@ const TableManagement = ({
           setCourse(value);
         }}
       >
-        {attendances.map((item) => {
-          return <Option value={item.courseID}>{item.courseID}</Option>;
+        {listClass.map((item) => {
+          return <Option value={item}>{item}</Option>;
         })}
       </Select>
       <ExportExcel
         columns={[
-          { key: "class", title: "Course" },
+          { key: "subject", title: "Course" },
+          { key: "email", title: "Student" },
           { key: "slot", title: "Slot" },
           { key: "date", title: "Date" },
           { key: "present", title: "Status" },
         ]}
-        data={user_attendances.map((item) => {
+        data={class_attendances.map((item) => {
           return {
             class: item.class,
             slot: item.slot,
@@ -64,7 +66,7 @@ const TableManagement = ({
             email: item.email,
           };
         })}
-        fileName={user.full_name + " Attendances Report "}
+        fileName={"SE1301" + " Attendances Report "}
       />
       <ModalAddEdit
         visibleModal={visibleModal}
@@ -75,9 +77,9 @@ const TableManagement = ({
         visibleModalUsers={visibleModalUsers}
         setVisibleModalUsers={setVisibleModalUsers}
         idClicked={idClicked}
-        schedule={courseAttendances?.schedule}
+        schedule={class_attendances}
       />
-      <Table columns={columns} dataSource={courseAttendances?.schedule} />
+      <Table columns={columns} dataSource={course ? class_attendances.filter(item=>item?.subject == course): class_attendances} />
     </>
   );
 };

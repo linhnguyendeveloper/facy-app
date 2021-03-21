@@ -30,6 +30,15 @@ const getForUser = (req, res) => {
       return res.status(401).json(err);
     });
 };
+const getByClass = (req, res) => {
+  Service.getManyWhere({class:req.query.class})
+    .then((data) => {
+      return res.status(200).json(data);
+    })
+    .catch((err) => {
+      return res.status(401).json(err);
+    });
+};
 const getOne = (req, res) => {
   let id = req.params.id;
   Service.getOne(id)
@@ -41,12 +50,12 @@ const getOne = (req, res) => {
     });
 };
 
-const create = (req, res,classID,subject) => {
+const create = (req, res,subject,classID) => {
   let data = req.body;
   data.slot = getSlotByTime(new Date());
   data.class = classID
   data.subject = subject
-
+  console.log(data);
   const err = validateCreate(data);
   if (err && err.error) {
     let errors =
@@ -86,12 +95,11 @@ const createMany = (req, res) => {
     });
 };
 
-const update = (req, res,classID,subject) => {
+const update = (req, res,subject,classID) => {
   let id = req.params.id;
   let data = req.body;
   data.class = classID
   data.subject = subject
-
   data.slot = getSlotByTime(new Date());
   let err = validateEdit(data);
   if (err && err.error) {
@@ -148,7 +156,6 @@ const checkUpdate = async (req, res) => {
   let data = req.body;
   let slot = getSlotByTime(new Date());
   let classCurrent = await ControllerSubject.subjectCurrent(req, res);
-  console.log(classCurrent);
   const classNow = await ServiceSubject.getOneWhere({
     id: classCurrent.subject_id,
   });
@@ -167,18 +174,34 @@ const checkUpdate = async (req, res) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "aintnolinh@gmail.com",
-      pass: "pjtdshzafamgmctl",
+      user: "facydn.team@gmail.com",
+      pass: "lstkhvazhuyfnigb",
     },
   });
   var mailOptions = {
-    from: "aintnolinh@gmail.com",
+    from: "facydn.team@gmail.com",
     to: req.body.email,
     subject: "Attendances notification from FPT University",
     text: `
-    You are absent today,
-    Course : ${classCurrent.subject_id}
-    At slot ${slot}`,
+Thân gửi sinh viên: Nguyễn Viết  Thuận,
+
+Mã số sinh viên: DE130018
+
+Theo quy định của trường Đại học FPT, sinh viên được dự thi cuối kỳ với điều kiện đã tham dự >= 80% thời lượng của một môn học.
+
+Phòng CTSV thông báo, tính đến thời điểm này bạn đã vắng 13.33% thời lượng của môn học ${classCurrent.subject_id}
+
+Vui lòng kiểm tra chi tiết tại http://fap.fpt.edu.vn
+
+Sinh viên cần chú ý đi học đầy đủ và đúng giờ để được tham gia dự thi vào cuối kỳ.
+
+Chúc bạn học tập hiệu quả.
+
+Hãy phản hồi ngay khi nhận được email này!!!
+
+Thân mến,
+
+Phòng CTSV – FPTU Đà Nẵng`,
   };
   if(!req.body.status)
   transporter.sendMail(mailOptions, function (error, info) {
@@ -200,8 +223,8 @@ const checkUpdate = async (req, res) => {
     let count = 0;
     if (attendance) {
       req.params.id = attendance._id;
-      await update(req, res,classCurrent.subject_id);
-    } else await create(req, res,classCurrent.subject_id);
+      await update(req, res,classCurrent.subject_id,classNow.class_id);
+    } else await create(req, res,classCurrent.subject_id,classNow.class_id);
     setTimeout(async () => {
       await Service.getCount({
         room: data.room,
@@ -251,5 +274,6 @@ module.exports = {
   deleteMany,
   checkUpdate,
   getCountCurrent,
-  getForUser
+  getForUser,
+  getByClass
 };

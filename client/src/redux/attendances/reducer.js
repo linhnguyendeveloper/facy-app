@@ -4,12 +4,14 @@ import {
   POST_ATTENDANCES_SUCCESS,
   DELETE_ONE_ATTENDANCES_SUCCESS,
   DELETE_MANY_ATTENDANCES_SUCCESS,
-  GET_USER_ATTENDANCES_SUCCESS
+  GET_USER_ATTENDANCES_SUCCESS,
+  GET_ATTENDANCES_CLASS
 } from './actionTypes'
 
 const initState = {
   attendances: [],
-  user_attendances:[]
+  user_attendances:[],
+  class_attendances:[]
 }
 
 export default function (state = initState, action) {
@@ -28,9 +30,10 @@ export default function (state = initState, action) {
       return {
         ...state
       }
-    case DELETE_ONE_ATTENDANCES_SUCCESS:
+    case GET_ATTENDANCES_CLASS:
       return {
-        ...state
+        ...state,
+        class_attendances:action.class_attendances
       }
     case DELETE_MANY_ATTENDANCES_SUCCESS:
       return {

@@ -4,6 +4,7 @@ import Add from "./components/Add";
 import Edit from "./components/Edit";
 import Delete from "./components/Delete";
 import ViewUsers from "./components/ViewUsers";
+import { Checkbox } from 'antd'
 
 const getColumns = (
   setVisibleModal,
@@ -15,22 +16,21 @@ const getColumns = (
   teacherName,
 ) => {
   return [
-    {
-      title: "Class",
-      dataIndex: "classId",
-      key: "classId",
-      render: (text) => <span>{className}</span>,
-    },
+    // {
+    //   title: "Class",
+    //   dataIndex: "classId",
+    //   key: "classId",
+    //   render: (text) => <span>{className}</span>,
+    // },
     {
       title: "Course",
-      dataIndex: "courseId",
-      key: "courseId",
-      render: (text) => <span>{courseName}</span>,
+      dataIndex: "subject",
+      key: "subject",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Student",
+      dataIndex: "email",
+      key: "email",
       render: (text) => <span>{text}</span>,
     },
     {
@@ -61,11 +61,17 @@ const getColumns = (
           <ViewUsers
             setVisibleModalUsers={setVisibleModalUsers}
             setIdClicked={setIdClicked}
-            id={record.lessonCount}
+            id={record.id}
             studentCount={text}
           />
         </>
       ),
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (text) => <Checkbox checked = {text}/>,
     },
     {
       title: "Actions",

@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { Modal, Tabs } from "antd";
+import { Button, Modal, Tabs } from "antd";
 
 const { TabPane } = Tabs;
 const ModalScheduleDetail = ({
@@ -24,6 +24,7 @@ const ModalScheduleDetail = ({
             <div>Room : {item?.room}</div>
             <div>Course : {item?.courseID}</div>
             <div>Class : {item?.className}</div>
+            <Button style={{marginTop:10}} color='primary'>Edit</Button>
             {/* <div>Lesson Count : {item?.lessonCount}</div> */}
           </TabPane>
         ))}

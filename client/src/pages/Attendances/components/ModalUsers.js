@@ -1,44 +1,52 @@
-import { React, useState } from 'react'
-import { Modal, message, Checkbox } from 'antd'
-import { Table } from 'antd'
+import { React, useState } from "react";
+import { Modal, message, Checkbox } from "antd";
+import { Table } from "antd";
 
 const ModalUsers = ({
   visibleModalUsers,
   setVisibleModalUsers,
   idClicked,
-  schedule
+  schedule,
 }) => {
   const handleOkCheckAttendances = () => {
-    setVisibleModalUsers(false)
-    message.info('Update attendance success !')
-  }
+    setVisibleModalUsers(false);
+    message.info("Update attendance success !");
+  };
   const handleCancel = () => {
-    setVisibleModalUsers(false)
-  }
-  const listUserAttendances = schedule && schedule.find(item => item.lessonCount === idClicked)
-    ?.student
+    setVisibleModalUsers(false);
+  };
+  const clickedCourse =
+    schedule && schedule.find((item) => (item.id ==  idClicked));
+  const listUserAttendances =
+    schedule &&
+    schedule.filter(
+      (item) =>
+        item.slot == clickedCourse?.slot &&
+        item.subject == clickedCourse?.subject &&
+        item.created_at.substring(0, 10) == clickedCourse?.created_at.substring(0, 10) 
+    );
   const columns = [
+    // {
+    //   title: "Name",
+    //   dataIndex: "full_name",
+    //   key: "full_name",
+    // },
     {
-      title: 'Name',
-      dataIndex: 'studentName',
-      key: 'studentName'
+      title: "Student  ",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'Student code  ',
-      dataIndex: 'studentID',
-      key: 'studentID'
+      title: "Attendances",
+      dataIndex: "status",
+      key: "status",
+      render: (text, record) => <Checkbox checked={record.status} />,
     },
-    {
-      title: 'Attendances',
-      dataIndex: 'attendance',
-      key: 'attendance',
-      render: (text, record) => <Checkbox defaultChecked={record.attendance} />
-    }
-  ]
+  ];
   // console.log(listUserAttendances)
   return (
     <Modal
-      title={'Users attendances'}
+      title={"Users attendances"}
       visible={visibleModalUsers}
       onOk={handleOkCheckAttendances}
       onCancel={handleCancel}
@@ -47,7 +55,7 @@ const ModalUsers = ({
     >
       <Table dataSource={listUserAttendances || []} columns={columns} />
     </Modal>
-  )
-}
+  );
+};
 
-export default ModalUsers
+export default ModalUsers;

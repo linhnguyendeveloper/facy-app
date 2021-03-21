@@ -6,7 +6,8 @@ import {
   // UPDATE_MANY_ATTENDANCES_SUCCESS,
   // DELETE_MANY_ATTENDANCES_SUCCESS,
   // DELETE_ONE_ATTENDANCES_SUCCESS,,
-  GET_USER_ATTENDANCES_SUCCESS
+  GET_USER_ATTENDANCES_SUCCESS,
+  GET_ATTENDANCES_CLASS
 } from './actionTypes'
 // import 
 // getAttendancesApi,
@@ -20,7 +21,7 @@ import {
 import data from '../../mockData'
 import dataJson from '../../SSC102.json'
 import dataJson2 from '../../ITE302b.json'
-import {getUserAttendancesApi}from '../../services/api/attendances'
+import {getUserAttendancesApi,getAttendanceClassApi}from '../../services/api/attendances'
 
 function get_all_attendances(attendances) {
   return {
@@ -50,6 +51,23 @@ export const getUserAttendances = email => {
     getUserAttendancesApi(email)
         .then(res => {
           dispatch(get_user_attendances(res?.data))
+        })
+        .catch(err => {})
+    }
+  
+}
+
+function get_attendance_class(attendances) {
+  return {
+    type: GET_ATTENDANCES_CLASS,
+    class_attendances: attendances
+  }
+}
+export const getAttendanceClass = email => {
+  return dispatch => {
+    getAttendanceClassApi(email)
+        .then(res => {
+          dispatch(get_attendance_class(res?.data))
         })
         .catch(err => {})
     }

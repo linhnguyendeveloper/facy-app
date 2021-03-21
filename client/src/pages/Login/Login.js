@@ -1,6 +1,6 @@
 import "../../App.css";
 import React, { useEffect, useState } from "react";
-import { Layout, Row, Col, Input, Checkbox, Button } from "antd";
+import { Layout, Row, Col, Input, Checkbox, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { login } from "../../redux/auth";
 import { connect } from "react-redux";
@@ -21,8 +21,14 @@ function Login({ login, isAuthen, history, userAuth }) {
   };
   useEffect(() => {
     if (isAuthen) {
-      if (userAuth.user.role_name === "STUDENT") history.push("/attendances");
-      else history.push("/dashboard");
+      message.loading('Signing in ... ',1,()=> {
+        message.success('Sign in success !',1,()=>{
+          if (userAuth.user.role_name === "STUDENT") history.push("/attendances");
+          else history.push("/dashboard");
+        })
+      })
+     
+     
     }
   }, [isAuthen]);
   return (
@@ -66,6 +72,7 @@ function Login({ login, isAuthen, history, userAuth }) {
                     <p>Password</p>
                     <Input
                       style={{ width: 300 }}
+                      type="password"
                       onChange={(e) => {
                         onChangeInput("password", e.target.value);
                       }}
@@ -78,7 +85,7 @@ function Login({ login, isAuthen, history, userAuth }) {
                     </p>
                     {/* <Link to="/attendances"> */}{" "}
                     <Button type="primary" onClick={onSubmit}>
-                      Submit
+                      Sign In
                     </Button>
                     {/* </Link> */}
                   </div>

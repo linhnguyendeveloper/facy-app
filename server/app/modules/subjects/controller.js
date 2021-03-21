@@ -178,8 +178,6 @@ const subjectCurrent = async (req, res) => {
     { class_id: true, _id: false }
   )
     .then(async (data) => {
-      console.log('non');
-
       let dateTime = new Date();
 
       let slot = getSlotByTime(dateTime);

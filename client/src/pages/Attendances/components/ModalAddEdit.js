@@ -1,30 +1,33 @@
-import React from 'react'
-import { Modal, message } from 'antd'
+import React from "react";
+import { Modal, message, Input } from "antd";
 
 const ModalAddEdit = ({ visibleModal, setVisibleModal, isEdit }) => {
   const handleOkAdd = () => {
-    setVisibleModal(false)
-    message.info('Added')
-  }
+    setVisibleModal(false);
+    message.info("Added");
+  };
   const handleOkEdit = () => {
-    setVisibleModal(false)
-    message.info('Edited')
-  }
+    setVisibleModal(false);
+    message.success("Request send success. Please wait for you teacher to verify.");
+  };
   const handleCancel = () => {
-    setVisibleModal(false)
-  }
+    setVisibleModal(false);
+  };
   return (
     <Modal
-      title={isEdit ? 'Edit Attendance' : 'Add attendances'}
+      title={"Request change attendance status"}
       visible={visibleModal}
       onOk={isEdit ? handleOkEdit : handleOkAdd}
       onCancel={handleCancel}
       className="modal-add-edit"
       forceRender
     >
-      {isEdit ? 'Sua du lieu o day' : 'Them du lieu o day'}
+      <p >Assigned Teacher :</p>
+      <Input value={"Truong Cong Phuc"} />
+      <p style={{ marginTop: 20 }}>Reason :</p>
+      <Input />
     </Modal>
-  )
-}
+  );
+};
 
-export default ModalAddEdit
+export default ModalAddEdit;
