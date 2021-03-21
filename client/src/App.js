@@ -14,16 +14,18 @@ import CustomFooter from "./components/CustomFooter";
 import { Layout } from "antd";
 import ScheduleManagement from "./pages/ScheduleManagement";
 import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin/AdminOverview"
+import AdminDetailView from "./pages/Admin/AdminDetailView"
 import io from "socket.io-client";
 
 class App extends React.Component {
   state = {
-    message:''
+    message: ''
   }
   componentWillMount() {
     this.socket = io("localhost:3001");
     this.socket.on("id", (res) => {
-   
+
     }); // lắng nghe event có tên 'id'
     this.socket.on("newMessage", (response) => {
       this.newMessage(response);
@@ -33,7 +35,7 @@ class App extends React.Component {
   newMessage(m) {
     console.log(m);
     this.setState({
-      message:this.state.message+m
+      message: this.state.message + m
     })
   }
   //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn
@@ -60,6 +62,8 @@ class App extends React.Component {
                 <Route path="/attendances" component={Attendances} exact />
                 <Route path="/dashboard" component={Dashboard} exact />
                 <Route path="/teachers" component={Teachers} exact />
+                <Route path="/adminOverview/" component={Admin} exact />
+                <Route path="/adminDetail/" component={AdminDetailView} exact />
                 <Route
                   path="/admin/schedule-management"
                   component={ScheduleManagement}
