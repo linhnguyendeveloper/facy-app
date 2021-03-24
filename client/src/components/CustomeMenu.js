@@ -22,7 +22,7 @@ const CustomMenu = () => {
           alt="lecture-images"
           style={{ width: 170, height: 170 }}
         />
-          Welcome, lecture!
+          Welcome, <Link to='/information'> teacher.getName() </Link>!
         </div>
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
         <SubMenu key="sub1" icon={<BookOutlined />} title="Course">
