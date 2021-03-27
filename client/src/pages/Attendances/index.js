@@ -27,7 +27,7 @@ const Attendances = ({
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0", textAlign: "left" }}>
             <Breadcrumb.Item>Course</Breadcrumb.Item>
-            <Breadcrumb.Item>Classes Attendance</Breadcrumb.Item>
+            <Breadcrumb.Item>Attendance</Breadcrumb.Item>
           </Breadcrumb>
         </Content>
       </div>
