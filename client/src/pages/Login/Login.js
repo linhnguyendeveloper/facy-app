@@ -4,7 +4,7 @@ import { Layout, Row, Col, Input, Checkbox, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { login } from "../../redux/auth";
 import { connect } from "react-redux";
-
+import CustomFooter from "../../components/CustomFooter.js";
 function Login({ login, isAuthen, history, userAuth }) {
   const { Header, Footer, Content } = Layout;
   const [input, setInput] = useState({
@@ -24,7 +24,7 @@ function Login({ login, isAuthen, history, userAuth }) {
       message.loading('Signing in ... ',1,()=> {
         message.success('Sign in success !',1,()=>{
           if (userAuth.user.role_name === "STUDENT") history.push("/attendances");
-          else history.push("/dashboard");
+          else history.push("/classes");
         })
       })
      
@@ -33,7 +33,7 @@ function Login({ login, isAuthen, history, userAuth }) {
   }, [isAuthen]);
   return (
     <div className="Login">
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ minHeight:670 }}>
         <Layout className="background-images">
           <Header style={{ height: 50 }}>
             <img
@@ -96,6 +96,7 @@ function Login({ login, isAuthen, history, userAuth }) {
           </Content>
         </Layout>
       </Layout>
+      <CustomFooter />
     </div>
   );
 }

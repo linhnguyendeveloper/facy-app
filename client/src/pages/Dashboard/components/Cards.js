@@ -10,7 +10,7 @@ const Cards = (props) => {
     <Row>
       <Col span={6}>
         <Card
-          style={{ margin: 15, padding: 25 }}
+          style={{ margin: 15, padding: 25,height:220 }}
           actions={[
             <div>
               {" "}
@@ -27,7 +27,7 @@ const Cards = (props) => {
       </Col>
       <Col span={6}>
         <Card
-          style={{ margin: 15, padding: 25 }}
+          style={{ margin: 15, padding: 25,height:220 }}
           actions={[
             <div>
               {" "}
@@ -38,19 +38,19 @@ const Cards = (props) => {
         >
           <div>
             <p>Absent</p>
-            <span style={{ color: "red", fontSize: 35 }}>{props.countStudent-props.message}</span>
+            <span style={{ color: "red", fontSize: 35 }}>{props.countStudent - props.message}</span>
           </div>
         </Card>
       </Col>
 
       <Col span={6}>
         <Card
-          style={{ margin: 15, padding: 25 }}
+          style={{ margin: 15, padding: 25,height:220 }}
           actions={[
             <div>
               {" "}
               <span style={{ marginRight: 10 }}>Show more </span>{" "}
-              <SettingOutlined key="setting" />
+              <SettingOutlined k  ey="setting" />
             </div>,
           ]}
         >
@@ -62,7 +62,7 @@ const Cards = (props) => {
       </Col>
       <Col span={6}>
         <Card
-          style={{ margin: 15, padding: 25 }}
+          style={{ margin: 15, padding: 25,height:220 }}
           actions={[
             <div>
               {" "}

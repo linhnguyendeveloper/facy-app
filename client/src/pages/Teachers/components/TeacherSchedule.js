@@ -4,32 +4,32 @@ import "../style.scss";
 import { EyeOutlined } from "@ant-design/icons";
 
 const TeacherSchedule = ({ attendances, handleSelectSchedule, schedules }) => {
-  const currentTeacher =  localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
-  : null;
+  const currentTeacher = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   const getListData = (value) => {
     const listSchedules = [];
     schedules && schedules.forEach((item) => {
-          item.data_in_date.forEach((it) => {
-            listSchedules.push({ ...it, date: item.date ,class:item.class});
-          });
-        })
+      item.data_in_date.forEach((it) => {
+        listSchedules.push({ ...it, date: item.date, class: item.class });
+      });
+    })
     const dateData = listSchedules.filter(
       (item) => item.date === value.format("MM/DD/YYYY")
     );
     let listData;
-      console.log(schedules);
+    console.log(schedules);
     listData = dateData
       ? dateData.map((item) => {
-          return {
-            type: "success",
-            className: item.class,
-            courseID: item.subject_id,
-            room: item.room,
-            lessonCount: item.lessonCount,
-            slot: item.slot,
-          };
-        })
+        return {
+          type: "success",
+          className: item.class,
+          courseID: item.subject_id,
+          room: item.room,
+          lessonCount: item.lessonCount,
+          slot: item.slot,
+        };
+      })
       : [];
 
     return listData;
@@ -38,16 +38,20 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule, schedules }) => {
     const listData = getListData(value);
     if (listData.length > 0)
       return (
-        <div className="date-cell">
-          <Tag
-            color="processing"
-            onClick={() => handleSelectSchedule(listData)}
-            icon={<EyeOutlined />}
-          >
-            {" "}
+
+     
+          <div className="date-cell">
+            <Tag
+              color="processing"
+              onClick={() => handleSelectSchedule(listData)}
+              icon={<EyeOutlined />}
+            >
+              {" "}
             View{" "}
-          </Tag>
-        </div>
+            </Tag>
+          </div>
+        
+
       );
   };
   const monthCellRender = (value) => {
@@ -68,7 +72,7 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule, schedules }) => {
   return (
     <div>
       <Calendar
-        style={{ padding: 20, border: "1px solid black" }}
+        style={{ padding: 20, width: 1000, marginLeft: "auto", marginRight: "auto" }}
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
       />

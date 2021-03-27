@@ -22,7 +22,7 @@ const Attendances = ({
     getAttendances("token");
   }, [getAttendances]);
   return (
-    <div>
+    <div style={{height:620}}>
       <div>
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0", textAlign: "left" }}>
@@ -32,7 +32,7 @@ const Attendances = ({
         </Content>
       </div>
       <div>
-        <TableManagement
+        <TableManagement 
           attendances={attendances}
           user_attendances={user_attendances}
           getUserAttendances={getUserAttendances}

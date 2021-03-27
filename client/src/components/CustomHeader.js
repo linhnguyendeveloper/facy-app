@@ -19,11 +19,11 @@ const CustomHeader = ({ history }) => {
       >
         {!user ? null : (
           <div>
-            <BellOutlined />     
+            <BellOutlined />  &nbsp;
             Hello {user.full_name}
             <Button
               type="danger"
-              style={{ margin: 9 }}
+              style={{ margin: 9, height: 30 }}
               onClick={() => {
                 localStorage.removeItem('user')
                 localStorage.removeItem('token')
