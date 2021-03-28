@@ -43,7 +43,6 @@ const ModalUsers = ({
       render: (text, record) => <Checkbox checked={record.status} />,
     },
   ];
-  // console.log(listUserAttendances)
   return (
     <Modal
       title={"Users attendances"}

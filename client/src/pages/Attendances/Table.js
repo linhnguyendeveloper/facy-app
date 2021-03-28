@@ -36,6 +36,7 @@ const TableManagement = ({
     'subject',
     user.full_name,
   );
+  console.log(class_attendances);
   return (
     <>
       <Select
@@ -56,6 +57,12 @@ const TableManagement = ({
           { key: "slot", title: "Slot" },
           { key: "date", title: "Date" },
           { key: "present", title: "Status" },
+          { key: "student", title: "Student" },
+          { key: "count", title: "Present" },
+          { key: "rate", title: "Absent rate" },
+          { key: "status", title: "Status" },
+          { key: "isFinal", title: "Note" },
+          
         ]}
         data={class_attendances.map((item) => {
           return {
