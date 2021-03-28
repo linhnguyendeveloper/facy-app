@@ -14,10 +14,8 @@ import CustomFooter from "./components/CustomFooter";
 import { Layout } from "antd";
 import ScheduleManagement from "./pages/ScheduleManagement";
 import Dashboard from "./pages/Dashboard";
-import Admin from "./pages/Admin/AdminOverview"
-import AdminDetailView from "./pages/Admin/AdminDetailView"
 import io from "socket.io-client";
-import Information from "./pages/Information/Information";
+// import Information from "./pages/Information/Information";
 
 class App extends React.Component {
   state = {
@@ -63,9 +61,9 @@ class App extends React.Component {
                 <Route path="/attendances" component={Attendances} exact />
                 <Route path="/dashboard" component={Dashboard} exact />
                 <Route path="/teachers" component={Teachers} exact />
-                <Route path="/adminOverview/" component={Admin} exact />
-                <Route path="/adminDetail/" component={AdminDetailView} exact />
-                <Route path="/information/" component={Information} exact />
+                {/* <Route path="/adminOverview/" component={Admin} exact /> */}
+                {/* <Route path="/adminDetail/" component={AdminDetailView} exact /> */}
+                {/* <Route path="/information/" component={Information} exact /> */}
                 <Route
                   path="/admin/schedule-management"
                   component={ScheduleManagement}
