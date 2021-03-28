@@ -15,7 +15,9 @@ import { Layout } from "antd";
 import ScheduleManagement from "./pages/ScheduleManagement";
 import Dashboard from "./pages/Dashboard";
 import io from "socket.io-client";
-// import Information from "./pages/Information/Information";
+import Information from "./pages/Information/Information";
+import AdminOverview from "./pages/Admin/AdminOverview";
+import AdminDetailView from "./pages/Admin/AdminDetailView";
 
 class App extends React.Component {
   state = {
@@ -49,30 +51,37 @@ class App extends React.Component {
     return (
       <div className="App">
         <Switch>
-          <Layout style={{ minHeight: "100vh" }}>
-            <CustomMenu />
-            <Layout>
-              <CustomHeader />
-              <Switch>
-                <Route exact path="/">
-                  <Redirect to="/login" />
-                </Route>
-                <Route path="/login" component={Login} exact />
+          <Layout>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/login" />
+                
+              </Route>
 
-                <Route path="/attendances" component={Attendances} exact />
-                <Route path="/dashboard" component={Dashboard} exact />
-                <Route path="/teachers" component={Teachers} exact />
-                {/* <Route path="/adminOverview/" component={Admin} exact /> */}
-                {/* <Route path="/adminDetail/" component={AdminDetailView} exact /> */}
-                {/* <Route path="/information/" component={Information} exact /> */}
-                <Route
-                  path="/admin/schedule-management"
-                  component={ScheduleManagement}
-                  exact
-                />
-              </Switch>
-              <CustomFooter />
-            </Layout>
+              <Route path="/login" component={Login} exact />
+              <Layout>
+                <CustomMenu />
+                <Layout>
+                  <CustomHeader />
+                  <Route path="/attendances" component={Attendances} exact />
+                  <Route path="/classes" component={Dashboard} exact />
+                  <Route path="/teachers" component={Teachers} exact />
+                  <Route path="/adminOverview/" component={AdminOverview} exact />
+                  <Route path="/adminDetail/" component={AdminDetailView} exact />
+                  <Route path="/information/" component={Information} exact />
+                  <Route
+                    path="/admin/schedule-management"
+                    component={ScheduleManagement}
+                    exact
+                  />
+                     <CustomFooter />
+                </Layout>
+              </Layout>
+
+
+            </Switch>
+         
+
           </Layout>
         </Switch>
       </div>
