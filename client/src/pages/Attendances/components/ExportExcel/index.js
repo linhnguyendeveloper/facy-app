@@ -6,7 +6,7 @@ import { FileExcelOutlined } from "@ant-design/icons";
 import moment from "moment";
 import "./ExportExcel.scss";
 
-const ExportExcel = ({ data, columns, fileName }) => {
+const ExportExcel = ({ data, columns, fileName, course }) => {
   const students = [
     "linhnvde130002@fpt.edu.vn",
     "lebaongoc6161@gmail.com",
@@ -16,15 +16,15 @@ const ExportExcel = ({ data, columns, fileName }) => {
     "thuannvde130018@fpt.edu.vn",
   ];
   let studentCount = [];
-  const totalSlot = 10; //mock
-
+  const totalSlot = 5; //mock
+  const listAttendances = data[`${course}`] ? data[`${course}`] : [];
   students.forEach((student) => {
     let count = 0;
-    data.forEach((attendance) => {
+    listAttendances.forEach((attendance) => {
       if (attendance.email === student && attendance.present === "Present")
         count++;
     });
-    const rate = Math.round((1 - (totalSlot - count) / totalSlot) * 100);
+    const rate = Math.round(( (totalSlot - count) / totalSlot) * 100);
     studentCount.push({
       student: student,
       count: count,
@@ -53,12 +53,12 @@ const ExportExcel = ({ data, columns, fileName }) => {
 
     worksheet.getColumn(3).width = 15; // column B
     worksheet.getColumn(4).width = 15; // column B
-    worksheet.name='PRJ201'
+    worksheet.name = course;
     studentCount.forEach((item) => {
       let row = worksheet.addRow(item);
       let rateCell = row.getCell(3);
       let statusCell = row.getCell(4);
-      if (item.isFinal === 'Banned') {
+      if (item.isFinal === "Banned") {
         rateCell.font = {
           color: { argb: "FF0000" },
         };
@@ -67,7 +67,7 @@ const ExportExcel = ({ data, columns, fileName }) => {
         };
       }
     });
-    exportExcel(workbook, fileName + moment().format("DD-MM-YYYY"));
+    exportExcel(workbook, 'Danh sach thi mon ' + course + ' '+moment().format("DD-MM-YYYY"));
   };
   // const handleExport = () => {
   //   let keys = ['student','attendance']

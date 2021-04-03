@@ -68,6 +68,7 @@ const create = (req, res,subject,classID) => {
       }, {});
     return res.status(constants.CODE.BAD_REQUEST).json(errors);
   } else {
+    console.log(data,'??');
     Service.create(data)
       .then((data) => {
         return res.status(constants.CODE.CREATE_OK).json({

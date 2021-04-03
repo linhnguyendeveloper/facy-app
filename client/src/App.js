@@ -18,17 +18,16 @@ import io from "socket.io-client";
 import Information from "./pages/Information/Information";
 import AdminOverview from "./pages/Admin/AdminOverview";
 import AdminDetailView from "./pages/Admin/AdminDetailView";
+import { Content } from "antd/lib/layout/layout";
 
 class App extends React.Component {
   state = {
-    message: ''
-  }
+    message: "",
+  };
   componentWillMount() {
     // this.socket = io("localhost:3001");
     this.socket = io("serverlinhchicken.ga");
-    this.socket.on("id", (res) => {
-
-    }); // lắng nghe event có tên 'id'
+    this.socket.on("id", (res) => {}); // lắng nghe event có tên 'id'
     this.socket.on("newMessage", (response) => {
       this.newMessage(response);
     }); //lắng nghe event 'newMessage' và gọi hàm newMessage khi có event
@@ -37,8 +36,8 @@ class App extends React.Component {
   newMessage(m) {
     console.log(m);
     this.setState({
-      message: this.state.message + m
-    })
+      message: this.state.message + m,
+    });
   }
   //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn
   sendnewMessage(m) {
@@ -55,7 +54,6 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/">
                 <Redirect to="/login" />
-                
               </Route>
 
               <Route path="/login" component={Login} exact />
@@ -63,25 +61,32 @@ class App extends React.Component {
                 <CustomMenu />
                 <Layout>
                   <CustomHeader />
-                  <Route path="/attendances" component={Attendances} exact />
-                  <Route path="/classes" component={Dashboard} exact />
-                  <Route path="/teachers" component={Teachers} exact />
-                  <Route path="/adminOverview/" component={AdminOverview} exact />
-                  <Route path="/adminDetail/" component={AdminDetailView} exact />
-                  <Route path="/information/" component={Information} exact />
-                  <Route
-                    path="/admin/schedule-management"
-                    component={ScheduleManagement}
-                    exact
-                  />
-                     <CustomFooter />
+                  <Content style={{minHeight:'90vh'}}>
+                    <Route path="/attendances" component={Attendances} exact />
+                    <Route path="/classes" component={Dashboard} exact />
+                    <Route path="/teachers" component={Teachers} exact />
+                    <Route
+                      path="/adminOverview/"
+                      component={AdminOverview}
+                      exact
+                    />
+                    <Route
+                      path="/adminDetail/"
+                      component={AdminDetailView}
+                      exact
+                    />
+                    <Route path="/information/" component={Information} exact />
+                    <Route
+                      path="/admin/schedule-management"
+                      component={ScheduleManagement}
+                      exact
+                    />
+                  </Content>
+
+                  <CustomFooter />
                 </Layout>
               </Layout>
-
-
             </Switch>
-         
-
           </Layout>
         </Switch>
       </div>

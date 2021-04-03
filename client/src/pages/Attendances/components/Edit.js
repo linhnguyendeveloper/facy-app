@@ -19,7 +19,7 @@ const Edit = ({ setVisibleModal, setIsEdit }) => {
 
   return (
     <span className="btn-edit">
-      <EditOutlined onClick={handleEdit} className="edit-data" />
+      <Button onClick={handleEdit} className="edit-data">Request Change</Button>
     </span>
   )
 }

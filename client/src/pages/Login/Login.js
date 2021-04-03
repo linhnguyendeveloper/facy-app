@@ -19,16 +19,20 @@ function Login({ login, isAuthen, history, userAuth }) {
   const onSubmit = () => {
     login(input);
   };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onSubmit();
+    }
+  };
   useEffect(() => {
     if (isAuthen) {
-      message.loading('Signing in ... ',1,()=> {
-        message.success('Sign in success !',1,()=>{
-          if (userAuth.user.role_name === "STUDENT") history.push("/attendances");
-          else history.push("/dashboard");
-        })
-      })
-     
-     
+      message.loading("Signing in ... ", 1, () => {
+        message.success("Sign in success !", 1, () => {
+          if (userAuth.user.role_name === "STUDENT")
+            history.push("/attendances");
+          else history.push("/classes");
+        });
+      });
     }
   }, [isAuthen]);
   return (
@@ -76,6 +80,7 @@ function Login({ login, isAuthen, history, userAuth }) {
                       onChange={(e) => {
                         onChangeInput("password", e.target.value);
                       }}
+                      onKeyDown={handleKeyDown}
                       value={input.password}
                     />
                     <p></p>

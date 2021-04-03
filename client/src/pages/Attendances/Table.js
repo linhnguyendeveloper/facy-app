@@ -19,14 +19,30 @@ const TableManagement = ({
   const [idClicked, setIdClicked] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
   const [course, setCourse] = useState("");
-  const listClass = [...new Set(class_attendances.map((item) => item.subject))];
+  const listSubject = [...new Set(class_attendances.map((item) => item.subject))];
+  let dataByEachSubject = {}
+  listSubject.forEach(subject=>{
+    dataByEachSubject[`${subject}`] = class_attendances.filter(item=>item.subject===subject).map((item) => {
+      return {
+        class: item.class,
+        slot: item.slot,
+        date: item.updated_at.substring(0, 10),
+        present: item.status ? "Present" : "Absent",
+        email: item.email,
+        subject:item.subject
+      };
+    })
+  })
   useEffect(() => {
-    setCourse(listClass[0])
+    setCourse(listSubject[1])
   }, [class_attendances]);
   useEffect(() => {
     getUserAttendances(user.email);
     getAttendanceClass("SE1301");
   }, []);
+  
+  const isTeacher = user?.role[0] == 'TEACHER'
+  const listAttendances = isTeacher ? class_attendances : class_attendances.filter(item=>item.email=== user.email)
   const columns = getColumns(
     setVisibleModal,
     setIsEdit,
@@ -35,8 +51,8 @@ const TableManagement = ({
     'class',
     'subject',
     user.full_name,
+    isTeacher
   );
-  console.log(class_attendances);
   return (
     <>
       <Select
@@ -46,7 +62,7 @@ const TableManagement = ({
           setCourse(value);
         }}
       >
-        {listClass.map((item) => {
+        {listSubject.map((item) => {
           return <Option value={item}>{item}</Option>;
         })}
       </Select>
@@ -64,15 +80,8 @@ const TableManagement = ({
           { key: "isFinal", title: "Note" },
           
         ]}
-        data={class_attendances.map((item) => {
-          return {
-            class: item.class,
-            slot: item.slot,
-            date: item.updated_at.substring(0, 10),
-            present: item.status ? "Present" : "Absent",
-            email: item.email,
-          };
-        })}
+        data={dataByEachSubject}
+        course={course}
         fileName={"SE1301" + " Attendances Report "}
       />
       <ModalAddEdit
@@ -86,7 +95,7 @@ const TableManagement = ({
         idClicked={idClicked}
         schedule={class_attendances}
       />
-      <Table columns={columns} dataSource={course ? class_attendances.filter(item=>item?.subject == course): class_attendances} />
+      <Table columns={columns} dataSource={course ? listAttendances.filter(item=>item?.subject == course): listAttendances} />
     </>
   );
 };

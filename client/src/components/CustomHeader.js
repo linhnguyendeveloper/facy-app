@@ -1,8 +1,6 @@
 import React from "react";
-import { Layout, Breadcrumb, Button } from "antd";
-import {
-  BellOutlined
-} from '@ant-design/icons';
+import { Layout, Breadcrumb, Button, Badge } from "antd";
+import { BellOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 const { Header, Content } = Layout;
 
@@ -15,19 +13,26 @@ const CustomHeader = ({ history }) => {
     <>
       <Header
         className="site-layout-background"
-        style={{ padding: 0, backgroundColor: "white", height: 50, textAlign: 'right' }}
+        style={{
+          padding: 0,
+          backgroundColor: "white",
+          height: 50,
+          textAlign: "right",
+        }}
       >
         {!user ? null : (
           <div>
-            <BellOutlined />     
-            Hello {user.full_name}
+            <Badge  count={1} size='small'>
+              <BellOutlined />
+            </Badge>
+            <span style={{marginLeft:12}}>Hello {user.full_name}</span>
             <Button
               type="danger"
               style={{ margin: 9 }}
               onClick={() => {
-                localStorage.removeItem('user')
-                localStorage.removeItem('token')
-                history.push('/login')
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                history.push("/login");
               }}
             >
               Log out
