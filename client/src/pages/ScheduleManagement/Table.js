@@ -29,7 +29,7 @@ const TableManagement = ({ attendances }) => {
   return (
     <>
       {/* <Add setVisibleModal={setVisibleModal} setIsEdit={setIsEdit} /> */}
-      <Select
+      {/* <Select
       style={{marginBottom:20}}
         value={course}
         onChange={(value) => {
@@ -39,7 +39,7 @@ const TableManagement = ({ attendances }) => {
         {attendances.map((item) => {
           return <Option value={item.courseID}>{item.courseID}</Option>;
         })}
-      </Select>
+      </Select> */}
       <ImportExcel/>
       <ModalAddEdit
         visibleModal={visibleModal}

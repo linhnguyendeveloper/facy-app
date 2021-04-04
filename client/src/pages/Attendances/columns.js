@@ -23,22 +23,54 @@ const getColumns = (
     //   key: "classId",
     //   render: (text) => <span>{className}</span>,
     // },
+    isTeacher
+      ? {
+          title: "Course",
+          dataIndex: "subject",
+          key: "subject",
+        }
+      : {},
+    isTeacher
+      ? {
+          title: "Student",
+          dataIndex: "email",
+          key: "email",
+          render: (text) => <span>{text}</span>,
+        }
+      : {},
+
     {
-      title: "Course",
-      dataIndex: "subject",
-      key: "subject",
-    },
-    {
-      title: "Student",
-      dataIndex: "email",
-      key: "email",
-      render: (text) => <span>{text}</span>,
-    },
-    {
-      title: "Room",
-      dataIndex: "room",
-      key: "room",
-      render: (text) => <span>{text}</span>,
+      title: "Date",
+      dataIndex: "updated_at",
+      key: "updated_at",
+      render: (text) => {
+        var days = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        var months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        var day = days[new Date(text.substring(0, 10)).getDay()];
+        return <span>{day}, {text.substring(0, 10)}</span>;
+      },
     },
     {
       title: "Slot",
@@ -47,11 +79,12 @@ const getColumns = (
       render: (text) => <span>{text}</span>,
     },
     {
-      title: "Date",
-      dataIndex: "updated_at",
-      key: "updated_at",
-      render: (text) => <span>{text.substring(0, 10)}</span>,
+      title: "Room",
+      dataIndex: "room",
+      key: "room",
+      render: (text) => <span>{text}</span>,
     },
+
     isTeacher
       ? {
           title: "Students",

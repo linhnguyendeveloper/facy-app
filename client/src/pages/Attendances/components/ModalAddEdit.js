@@ -24,7 +24,7 @@ const ModalAddEdit = ({ visibleModal, setVisibleModal, isEdit }) => {
     >
       <p >Assigned Teacher :</p>
       <Input value={"Truong Cong Phuc"} />
-      <p style={{ marginTop: 20 }}>Reason :</p>
+      <p style={{ marginTop: 20 }}>What is your reason ?</p>
       <Input />
     </Modal>
   );

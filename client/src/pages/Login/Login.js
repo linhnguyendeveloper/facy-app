@@ -4,8 +4,13 @@ import { Layout, Row, Col, Input, Checkbox, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { login } from "../../redux/auth";
 import { connect } from "react-redux";
+import GoogleLogin from 'react-google-login';
 
 function Login({ login, isAuthen, history, userAuth }) {
+  
+  const responseGoogle = (response) => {
+    console.log(response);
+  }
   const { Header, Footer, Content } = Layout;
   const [input, setInput] = useState({
     password: "",
@@ -89,6 +94,13 @@ function Login({ login, isAuthen, history, userAuth }) {
                       <Checkbox /> Remember me?
                     </p>
                     {/* <Link to="/attendances"> */}{" "}
+                    <GoogleLogin
+    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+    buttonText="Login"
+    onSuccess={responseGoogle}
+    onFailure={responseGoogle}
+    cookiePolicy={'single_host_origin'}
+  />
                     <Button type="primary" onClick={onSubmit}>
                       Sign In
                     </Button>

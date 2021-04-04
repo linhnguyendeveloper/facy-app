@@ -10,7 +10,7 @@ const TeacherSchedule = ({ attendances, handleSelectSchedule, schedules }) => {
   const getListData = (value) => {
     const listSchedules = [];
     schedules && schedules.forEach((item) => {
-          item.data_in_date.forEach((it) => {
+      item.data_in_date && item.data_in_date.forEach((it) => {
             listSchedules.push({ ...it, date: item.date ,class:item.class});
           });
         })
