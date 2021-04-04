@@ -189,57 +189,29 @@ const updateAttendance = async (req, res) => {
       //     date_in_week : 
       //   })
       // }
-      
-      if(Calendar_exists) return res.status.send("Calendar exists")
-      Service.update(data.id, { attendance: data })
 
+      console.log(data)
 
-      return res.status(200).json(data)
-
-        .catch((err) => {
-          return res.status(401).json(err);
-        });
+      if (Calendar_exists) return res.status(200).send("Calendar exists")
+       Service.update(data._id, { attendance: data })
+       return res.status(200).json(data)
 
 
 
-      return 0;
-      let id = req.params.id;
-      let data = req.body;
-      data.class = classID
-      data.subject = subject
-      data.slot = getSlotByTime(new Date());
-      let err = validateEdit(data);
-      if (err && err.error) {
-        let errors =
-          err.error &&
-          err.error.details.reduce((result, item) => {
-            return {
-              ...result,
-              [item.path[0]]: item.message,
-            };
-          }, {});
-        return res.status(constants.CODE.BAD_REQUEST).json(errors);
-      } else {
-        Service.update(id, data)
-          .then((data) => {
-            return res.status(constants.CODE.CREATE_OK).json({
-              message: "edit successful",
-            });
-          })
-          .catch((err) => {
-            return res.status(constants.CODE.BAD_REQUEST).json(err.message);
-          });
-      }
-    }
+    })
+    .catch((err) => {
+      return res.status(401).json(err);
+    });
+}
 
 
 module.exports = {
-        getMany,
-        getOne,
-        create,
-        update,
-        deleteOne,
-        deleteMany,
-        getCountOne,
-        updateAttendance
-      };
+  getMany,
+  getOne,
+  create,
+  update,
+  deleteOne,
+  deleteMany,
+  getCountOne,
+  updateAttendance
+};
