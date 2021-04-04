@@ -45,7 +45,26 @@ const ExportExcel = ({ data, columns, fileName, course }) => {
     });
     let workbook = new Excel.Workbook();
     let worksheet = workbook.addWorksheet();
+
+ 
+    const header = [
+      "Student",
+      "Present",
+      "Absent Rate",
+      "Note",
+      
+    ];
     worksheet.columns = sheetColumns;
+    worksheet.spliceRows(2, 1, header);
+ 
+    worksheet.getCell("A1").value = "DANH SACH THAM GIA KI THI FINAL";
+    worksheet.mergeCells("A1:D1");
+    worksheet.getRow(1).height = 35;
+    worksheet.getRow(1).alignment = {
+      vertical: "middle",
+      horizontal: "left",
+      wrapText: true,
+    };
     worksheet.getColumn(1).width = 40; // column B
     worksheet.getColumn(2).alignment = { horizontal: "center" }; // column B
     worksheet.getColumn(3).alignment = { horizontal: "center" }; // column B

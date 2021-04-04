@@ -25,8 +25,8 @@ class App extends React.Component {
     message: "",
   };
   componentWillMount() {
-    // this.socket = io("localhost:3001");
-    this.socket = io("serverlinhchicken.ga");
+    this.socket = io("localhost:3001");
+    // this.socket = io("serverlinhchicken.ga");
     this.socket.on("id", (res) => {}); // lắng nghe event có tên 'id'
     this.socket.on("newMessage", (response) => {
       this.newMessage(response);

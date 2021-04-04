@@ -172,6 +172,7 @@ const checkUpdate = async (req, res) => {
     return res.status(constants.CODE.GET_OK).json("null");
 
   const today = moment().startOf("day");
+  let students = await ServiceUser.getByEmail(data.email)
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -184,7 +185,7 @@ const checkUpdate = async (req, res) => {
     to: req.body.email,
     subject: "Attendances notification from FPT University",
     text: `
-Thân gửi sinh viên: Nguyễn Viết  Thuận,
+Thân gửi sinh viên: ${students && students[0] ? students[0].full_name : ''},
 
 Mã số sinh viên: DE130018
 

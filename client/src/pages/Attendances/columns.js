@@ -30,7 +30,7 @@ const getColumns = (
           key: "subject",
         }
       : {},
-    isTeacher
+    !isTeacher
       ? {
           title: "Student",
           dataIndex: "email",
@@ -69,7 +69,11 @@ const getColumns = (
         ];
 
         var day = days[new Date(text.substring(0, 10)).getDay()];
-        return <span>{day}, {text.substring(0, 10)}</span>;
+        return (
+          <span>
+            {day}, {text.substring(0, 10)}
+          </span>
+        );
       },
     },
     {
@@ -102,12 +106,14 @@ const getColumns = (
           ),
         }
       : {},
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (text) => <Checkbox checked={text} />,
-    },
+    !isTeacher
+      ? {
+          title: "Status",
+          dataIndex: "status",
+          key: "status",
+          render: (text) => <Checkbox checked={text} />,
+        }
+      : {},
     {
       title: "Actions",
       dataIndex: "Actions",

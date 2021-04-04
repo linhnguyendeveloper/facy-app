@@ -1,14 +1,31 @@
-import React from "react";
-import { Layout, Breadcrumb, Button, Badge } from "antd";
+import React, { useState } from "react";
+import { Layout, Breadcrumb, Button, Badge, Modal, Menu, Dropdown } from "antd";
 import { BellOutlined } from "@ant-design/icons";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 const { Header, Content } = Layout;
 
 const CustomHeader = ({ history }) => {
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
-
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Link to='/attendances'>
+          <p style={{marginBottom:0}}>Request change attendance status from Nguyen Viet Linh</p>
+          <p style={{color:'gray',fontSize:12}}>04-04-2020</p>
+        </Link>
+      </Menu.Item>
+      
+      <Menu.Item>
+        <Link to='/attendances'>
+          <p style={{marginBottom:0}}>Request change attendance status from Nguyen Viet Linh</p>
+          <p style={{color:'gray',fontSize:12}}>04-04-2020</p>
+        </Link>
+      </Menu.Item>
+      
+    </Menu>
+  );
   return (
     <>
       <Header
@@ -22,13 +39,17 @@ const CustomHeader = ({ history }) => {
       >
         {!user ? null : (
           <div>
-            <Badge  count={1} size='small'>
-              <BellOutlined />
-            </Badge>
-            <span style={{marginLeft:12}}>Hello {user.full_name}</span>
+           
+
+            <span style={{ marginRight: 12 }}>Hello {user.full_name}</span>
+            <Dropdown overlay={menu} placement="bottomRight" arrow  >
+              <Badge count={1} size="small" >
+                <BellOutlined />
+              </Badge>
+            </Dropdown>
             <Button
               type="danger"
-              style={{ margin: 9 }}
+              style={{ margin: 9,marginLeft:20 }}
               onClick={() => {
                 localStorage.removeItem("user");
                 localStorage.removeItem("token");

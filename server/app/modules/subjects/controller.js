@@ -119,6 +119,7 @@ const getCurrent = async (req, res) => {
         year: dateTime.getFullYear(),
       });
       let id;
+      console.log(schedules,id);
       await schedules.forEach((schedule) => {
         schedule.attendance.forEach((week) => {
           if (week)

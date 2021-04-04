@@ -4,13 +4,13 @@ import { Layout, Row, Col, Input, Checkbox, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { login } from "../../redux/auth";
 import { connect } from "react-redux";
-import GoogleLogin from 'react-google-login';
+import GoogleLogin from "react-google-login";
 
 function Login({ login, isAuthen, history, userAuth }) {
-  
   const responseGoogle = (response) => {
-    console.log(response);
-  }
+   const email = response.profileObj.email
+   login({email:email,password:'123456'})
+  };
   const { Header, Footer, Content } = Layout;
   const [input, setInput] = useState({
     password: "",
@@ -93,18 +93,28 @@ function Login({ login, isAuthen, history, userAuth }) {
                       {" "}
                       <Checkbox /> Remember me?
                     </p>
-                    {/* <Link to="/attendances"> */}{" "}
-                    <GoogleLogin
-    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-    buttonText="Login"
-    onSuccess={responseGoogle}
-    onFailure={responseGoogle}
-    cookiePolicy={'single_host_origin'}
-  />
-                    <Button type="primary" onClick={onSubmit}>
-                      Sign In
-                    </Button>
-                    {/* </Link> */}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <GoogleLogin
+                        clientId="27898887738-phn1q1jod6v6lc3dphbcggrf44a59p2r.apps.googleusercontent.com"
+                        buttonText="Login"
+                        onSuccess={responseGoogle}
+                        // onFailure={responseGoogle}
+                        // cookiePolicy={"single_host_origin"}
+                      />
+                      <Button
+                        type="primary"
+                        onClick={onSubmit}
+                        style={{ height: 47, borderRadius: 3, marginLeft: 10 }}
+                      >
+                        Sign In
+                      </Button>
+                    </div>
                   </div>
                 </Col>
                 <Col span={8}></Col>
