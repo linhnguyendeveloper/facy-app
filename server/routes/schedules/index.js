@@ -9,6 +9,7 @@ router.post("/create", Controller.create)
 router.put("/update/:id", Controller.update)
 router.delete("/delete/:id", Controller.deleteOne)
 router.delete("/deletes/", Controller.deleteMany)
+router.put("/updateAttendances", Controller.updateAttendance)
 
 
 module.exports = router;

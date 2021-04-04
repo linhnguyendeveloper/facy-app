@@ -7,13 +7,13 @@ const getMany = (req, res) => {
   Service.getMany()
     .then((data) => {
       let arr2 = []
-      data.filter(item=>item).map(item=>{
-          return item.attendance.map(it=>{
-            arr2 = arr2.concat(it.data_in_week.map(day=>{
-              return {...day,class:item.class_id}
-            }))
-          })
+      data.filter(item => item).map(item => {
+        return item.attendance.map(it => {
+          arr2 = arr2.concat(it.data_in_week.map(day => {
+            return { ...day, class: item.class_id }
+          }))
         })
+      })
 
       return res.status(200).json(arr2);
     })
@@ -138,12 +138,108 @@ const deleteMany = (req, res) => {
     });
 };
 
+
+const updateAttendance = async (req, res) => {
+
+  let { class_id, year, semester, attendance } = req.body;
+
+  Service.getOneWhere({ class_id, year, semester })
+    .then((data) => {
+      // return res.status(200).json(data);
+      let checkUpdate = false
+      let first = true
+      let arr2 = []
+      let { slot, room, subject_id } = attendance
+      let data_date = { slot, room, subject_id }
+      let Calendar_exists = false
+      // console.log(data.attendance[0])
+      for (const key of data.attendance.keys()) {
+        const item = data.attendance[key]
+        for (const keyWeek of item.data_in_week.keys()) {
+          const week = item.data_in_week[keyWeek]
+          if (week.date == attendance.date_old)
+            for (const keyDate of week.data_in_date.keys()) {
+              const date = week.data_in_date[keyDate]
+              if (date.slot == attendance.slot_old && date.subject_id == attendance.subject_id_old) {
+                data.attendance[key].data_in_week[keyWeek].data_in_date.splice(keyDate, 1)
+              }
+
+            }
+          if (week.date == attendance.date) {
+            week.data_in_date.forEach(value => {
+              if (value.slot == slot) {
+                Calendar_exists = true
+                console.log(111111);
+              }
+            })
+            for (const keyDate of week.data_in_date.keys()) {
+              const date = week.data_in_date[keyDate]
+              if (!Calendar_exists && date.slot != attendance.slot) {
+                checkUpdate = true
+                data.attendance[key].data_in_week[keyWeek].data_in_date.push(data_date)
+              }
+            }
+          }
+        }
+      }
+
+      // if(!checkUpdate){
+      //   data.attendance.push({
+      //     week : attendance.week,
+      //     date_in_week : 
+      //   })
+      // }
+      
+      if(Calendar_exists) return res.status.send("Calendar exists")
+      Service.update(data.id, { attendance: data })
+
+
+      return res.status(200).json(data)
+
+        .catch((err) => {
+          return res.status(401).json(err);
+        });
+
+
+
+      return 0;
+      let id = req.params.id;
+      let data = req.body;
+      data.class = classID
+      data.subject = subject
+      data.slot = getSlotByTime(new Date());
+      let err = validateEdit(data);
+      if (err && err.error) {
+        let errors =
+          err.error &&
+          err.error.details.reduce((result, item) => {
+            return {
+              ...result,
+              [item.path[0]]: item.message,
+            };
+          }, {});
+        return res.status(constants.CODE.BAD_REQUEST).json(errors);
+      } else {
+        Service.update(id, data)
+          .then((data) => {
+            return res.status(constants.CODE.CREATE_OK).json({
+              message: "edit successful",
+            });
+          })
+          .catch((err) => {
+            return res.status(constants.CODE.BAD_REQUEST).json(err.message);
+          });
+      }
+    }
+
+
 module.exports = {
-  getMany,
-  getOne,
-  create,
-  update,
-  deleteOne,
-  deleteMany,
-  getCountOne,
-};
+        getMany,
+        getOne,
+        create,
+        update,
+        deleteOne,
+        deleteMany,
+        getCountOne,
+        updateAttendance
+      };

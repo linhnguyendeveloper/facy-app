@@ -266,6 +266,7 @@ const getCountCurrent = async (req, res) => {
   });
 };
 
+
 module.exports = {
   getMany,
   getOne,
@@ -276,5 +277,6 @@ module.exports = {
   checkUpdate,
   getCountCurrent,
   getForUser,
-  getByClass
+  getByClass,
+  
 };

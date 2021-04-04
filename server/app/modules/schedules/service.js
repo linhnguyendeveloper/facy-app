@@ -4,8 +4,11 @@ const getMany = (where={},filter={}) => {
   return Schedule.find({ deleted: {$ne:true},...where },filter);
 }
 
-const getOne = (id) => {
-  return Schedule.findOne({ _id: id, deleted: { $ne: true } });
+const getOne = (where={}) => {
+  return Schedule.findOne({ _id: id, deleted: { $ne: true },...where });
+}
+const getOneWhere = (where={}) => {
+  return Schedule.findOne({  deleted: { $ne: true }, ...where});
 }
 const getCountOne = (id) => {
   return Schedule.findOne({ id, deleted: { $ne: true } });
@@ -40,5 +43,6 @@ module.exports = {
   deleteOne,
   deleteMany,
   getByEmail,
-  getCountOne
+  getCountOne,
+  getOneWhere
 }
